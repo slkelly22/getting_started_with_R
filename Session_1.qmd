@@ -1,0 +1,307 @@
+---
+title: "Getting Started with R"
+author: "S. Kelly | Scholar Support and Data Services | Fall 2025"
+format: 
+  revealjs: 
+    code-overflow: wrap
+    footer: "S.Kelly | Getting Started with R | Fall 2025"
+editor: visual
+execute: 
+  echo: true
+---
+
+## Welcome!
+
+**Getting Started with R** is an interactive, five-week workshop series for University of Mississippi faculty, students, and staff. Learning R is fun! Today we'll start by exploring:
+
+-   The difference between R and RStudio
+
+-   Working directories and R Projects
+
+-   Data types and R objects
+
+-   Functions and arguments
+
+-   How to install and load packages
+
+## R and RStudio: What's the difference?
+
+::::: columns
+::: column
+`r rsicons::icon("text-x-r-source", height = 240)` This is the R icon. You need this but we will never open it directly.
+:::
+
+::: column
+`r rsicons::icon("rstudio", height = 200)` This is the RStudio icon. RStudio is the IDE that runs R. We will always work in RStudio.
+:::
+:::::
+
+## How do you know which versions of R & RStudio you're running?
+
+::::: columns
+::: column
+![](images/AboutR.png){fig-align="left"}
+:::
+
+::: column
+![](images/AboutRStudio.png){fig-align="right" width="500"}
+:::
+:::::
+
+## What is an R Project?
+
+R Projects are the easiest way to stay organized. You create separate directories for associated files (i.e., .R, .csv, visualizations). I have R Projects for classes, workshops, consulting projects. We'll create an R Project for this workshop.
+
+::: {style="text-align: center;"}
+`r rsicons::icon("application-x-r-project", height = 240)` This is the icon for an R Project.
+:::
+
+## What is a working directory?
+
+```{r}
+getwd()
+```
+
+::: {style="text-align: center;"}
+## RStudio Panes
+
+![](images/RStudioPanes.png)
+:::
+
+## Source Pane
+
+This is where you write your scripts. These are saved as .R files. <br>
+
+To execute code, have your cursor on the line of code (or highlight the code) and hit:
+
+-   Control + Enter (Windows)
+-   Command + Return (Mac)
+
+## Commenting your Code
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+# Comment your code by writing a hash 
+# R doesn't execute these statements
+# Leave yourself messages for what your code does
+```
+
+For example...
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+# Remember that I need to use the == equivalency not = equal
+dataset |> 
+  filter(variable == "criteria")
+```
+
+## Console Pane
+
+Execution Time!
+
+<br>
+
+When you run code, the results of that code show up in your console. This is also where R provides warning and error messages.
+
+<br>
+
+You can technically run code in the console directly, but it's not saved. Better to run all your code in the Source Pane and save as a .R file.
+
+::: {style="text-align: center;"}
+## RStudio Customization
+
+![](images/customizeA.png){fig-align="center" width="600"}
+:::
+
+## Environment Pane
+
+The Assignment Operator is **\<-**
+
+-   Alt - (Windows shortcut)
+-   Option - (Mac shortcut)
+
+![](images/environment_pane.png){fig-align="center"}
+
+## Why is R so finicky?
+
+Things to Know:
+
+<div>
+
+-   R is case sensitive: Apple and apple are not equivalent.
+
+-   Spaces will get you in trouble. Use snake_case or CamelCase naming conventions.
+
+-   R error messages are generally not very informative.
+
+</div>
+
+## What is a function?
+
+A function tells R to do something. It is followed by parentheses. Parentheses are essential even if empty. Inside the parentheses are arguments. They are separated by commas.
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+# range() is a function that provides the minimum and maximum values
+range()
+# The c() function combines its arguments into a single vector
+c()
+```
+
+## How do you get help?
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+# pulls up the help menu for that function
+?function 
+# will provide the arguments for the function
+args(function) 
+```
+
+![](images/help_menu.png){fig-align="center"}
+
+## Object-Oriented Programming
+
+The Assignment Operator
+
+```{r}
+character_object <- c("monkeys", "pigs", "elephants")
+character_object
+```
+
+<br>
+
+```{r}
+numeric_object <- c(1:15)
+numeric_object
+```
+
+<br>
+
+```{r}
+logical_object <- c(T,F,T,T,T,F)
+logical_object
+```
+
+## Activity
+
+Create three objects: a string, a numeric/integer, and a logical
+
+```{r}
+character_object <- c("cats", "dogs", "birds" )
+character_object
+```
+
+<br>
+
+```{r}
+numeric_object <- c(8, 29, 82, 42)
+numeric_object
+```
+
+<br>
+
+```{r}
+logical_object <- c(T,FALSE, TRUE, F, TRUE)
+logical_object
+```
+
+
+## Working with functions
+
+```{r}
+mean(character_object)
+```
+
+```{r}
+mean(numeric_object)
+```
+
+```{r}
+mean(logical_object)
+```
+
+## Yikes. What is happening?
+
+When in doubt, review the help menu for the function's arguments.
+
+```{r}
+another_numeric_object <- c(1:4, NA, 8:11)
+mean(another_numeric_object)
+```
+
+<br>
+
+```{r}
+mean(another_numeric_object, na.rm = T)
+```
+
+## Changing a data type
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+as.numeric()
+as.character()
+as.logical()
+```
+
+<br> Overwriting with the assignment operator
+
+```{r}
+numeric_object <- as.character(numeric_object)
+str(numeric_object) # How does R read this now?
+```
+
+<br> Let's fix that back
+
+```{r}
+numeric_object <- as.numeric(numeric_object)
+str(numeric_object)
+```
+
+# Installing and Loading Packages
+
+## What's the difference?
+
+You install once. You load every time you want to use the package.
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+install.packages("nameofpackage")
+install.packages(c("packageA", "packageB", "packageC"))
+# You need quotation marks when installing a package
+```
+
+<br>
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+library(packageA)
+library(packageB)
+library(packageC)
+# You do not need quotation marks when loading a package
+```
+
+## Let's install and load the tidyverse
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+install.packages("tidyverse")
+```
+
+<br>
+
+```{r}
+library(tidyverse)
+search()
+```
+
+![](images/tidyverse.png){fig-align="right"}
