@@ -210,7 +210,6 @@ logical_object <- c(T,FALSE, TRUE, F, TRUE)
 logical_object
 ```
 
-
 ## Working with functions
 
 ```{r}
