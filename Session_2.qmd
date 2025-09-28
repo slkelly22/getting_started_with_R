@@ -1,0 +1,327 @@
+---
+title: "Getting Started with R: Session 2"
+author: "S. Kelly | Scholar Support and Data Services | Fall 2025"
+format: 
+  revealjs: 
+    code-overflow: wrap
+    footer: "S.Kelly | Getting Started with R | Fall 2025"
+editor: visual
+execute: 
+  echo: true
+---
+
+## Before we Get Started
+
+1.  Go to your R Directory and open up your .Rproj file
+
+2.  Create a new syntax file for today (.R)
+
+3.  Save your .R file; you can call it session_2
+
+4.  Remember to comment your code with hashes \#
+
+# Working with datasets from within RStudio
+
+## Datasets included in Base R
+
+Without loading any additional packages, Base R has internal datasets that you can explore
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+# Notice the "R data sets" tab adjacent to your syntax file
+data()
+```
+
+## Let's take a look at a dataset called airquality
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+# The View() function will open up the data in a new tab
+View(airquality)
+```
+
+<br>
+
+```{r}
+# The dim() function tells you the dimensions of your dataset
+dim(airquality)
+```
+
+## Let's get familiar with a few Base R functions
+
+```{r}
+head(airquality, 2)
+```
+
+<br>
+
+```{r}
+tail(airquality, 8)
+```
+
+## Let's get familiar with a few Base R functions
+
+```{r}
+summary(airquality)
+```
+
+## Let's get familiar with a few Base R functions
+
+```{r}
+str(airquality)
+```
+
+<br> Use the \$ to call out a single column
+
+```{r}
+str(airquality$Solar.R)
+```
+
+## Missing Data Checks
+
+```{r}
+is.na(airquality$Solar.R)
+```
+
+What is happening here?
+
+```{r}
+sum(is.na(airquality$Solar.R))
+```
+
+## Activity
+
+How much missing data do we have in the Ozone variable?
+
+```{r}
+airquality$Ozone
+```
+
+## Activity Check
+
+How much missing data do we have in the Ozone variable?
+
+```{r}
+sum(is.na(airquality$Ozone))
+```
+
+<br>
+
+Run this code. What is it doing?
+
+```{r}
+sum(!is.na(airquality$Ozone))
+```
+
+## Activity: Create an object
+
+```{r}
+SK_airquality <- airquality
+head(SK_airquality)
+```
+
+## Installing and Loading Packages
+
+You install once. You load every time you want to use the package.
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+install.packages("nameofpackage")
+install.packages(c("packageA", "packageB", "packageC"))
+# You need quotation marks when installing a package
+```
+
+<br>
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+library(packageA)
+library(packageB)
+library(packageC)
+# You do not need quotation marks when loading a package
+```
+
+## Let's install and load the tidyverse
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+install.packages("tidyverse")
+```
+
+<br>
+
+```{r}
+library(tidyverse)
+search()
+```
+
+![](images/tidyverse.png){fig-align="right"}
+
+## The core tidyverse packages
+
+::::: columns
+::: {.column width="50%"}
+-   ggplot2: data viz
+
+-   readr: importing/exporting
+
+-   dplyr: manipulation
+
+-   forcats: factors
+
+-   stringr: strings
+:::
+
+::: {.column width="50%"}
+-   lubridate: dates/times
+
+-   tidyr: cleaning/flipping
+
+-   tibble: tibbles
+
+-   purrr: iteration
+:::
+:::::
+
+![](images/tidy_package_icons.png){fig-align="right"}
+
+## Base R syntax or tidy syntax?
+
+Quick giveaways of tidy code:
+
+-   Underscores in the function name: read_csv() is the tidy equivalent to Base R's read.csv()
+
+-   Using the pipe: %\>% or \|\>
+
+-   tibbles versus dataframes
+
+![](images/tidyverse.png){fig-align="right"}
+
+## Visualization with ggplot2
+
+ggplot2 is the most well-known tidyverse package.
+
+![](images/ggplot2.png){fig-align="center"}
+
+## Let's Build Plots
+
+ggplot2 employs a conceptual framework called the grammar of graphics.
+
+Think layers!
+
+1.  The Data
+
+2.  The Aesthetics (aes)
+
+3.  The geometric object (geoms)
+
+## Layers of a ggplot
+
+-   Data is your dataset
+
+-   Aesthetics (aes) are the variables you want represented
+
+-   Geoms are the visualization options
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+
+ggplot(data = dataset, mapping = aes(x = variable, 
+                                     y = variable)) + geom_point()
+
++ geom_point() # a scatterplot, two cont variables
++ geom_histogram() # one cont variable
++ geom_boxplot() # cont & cat variable
++ geom_line() # two cont variables, x = time
++ geom_bar() # one cat variable
++ geom_col() # one cat variable and one count variable
+```
+
+## New Package and Dataset
+
+cherryblossom package and run17 data
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+install.packages("cherryblossom")
+```
+
+```{r}
+library(cherryblossom)
+```
+
+![](images/cherryblossomflickr_adamFagen.jpg)
+
+## Let's look at our data and make a plot
+
+```{r}
+summary(run17)
+```
+
+## Quick Histogram ggplot style
+
+```{r}
+ggplot(data = run17, aes(x = pace_sec)) + geom_histogram()
+```
+
+## Let's add color and labels
+
+```{r}
+ggplot(data = run17, aes(x = pace_sec)) + 
+  geom_histogram(color = "white", fill = "purple") + 
+  labs(x = "Pace per second", y = "Number of Runners")
+```
+
+## How did I get colors?
+
+\~ 650 colors you can call on
+
+```{r}
+colors() |> head(15)
+
+colors() |> tail(15)
+```
+
+<br> R also understands hexadecimal color codes ("#800080")
+
+## Same Plot, but with HEX color
+
+```{r}
+ggplot(data = run17, aes(x = pace_sec)) + 
+  geom_histogram(color = "white", fill = "#800080") + 
+  labs(x = "Pace per second", y = "Number of Runners")
+```
+
+## Final Activity: Create a histogram
+
+Variable: Time to complete race (net_sec)
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+ggplot(data = ?, aes(x = )) + geom_?(color = ?, fill = ?) + 
+  labs(x = ? , y = ?)
+```
+
+## Activity Check
+
+Variable: Time to complete race (net_sec)
+
+```{r}
+ggplot(data = run17, aes(x = net_sec)) + geom_histogram(color = "white", 
+                                        fill = "slategray4") + 
+  labs(x = "Time to Complete the Race (seconds)" , y = "Number of Runners")
+```
+
+## Next Week
+
+We'll continue plotting with ggplot2 and learn critical functions from the dplyr package!
+
+![](images/ggplot2.png){width="250"}![](images/dplyr.png){width="250"}
