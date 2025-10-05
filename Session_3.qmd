@@ -1,0 +1,201 @@
+---
+title: "Getting Started with R: Session 3"
+author: "S. Kelly | Scholar Support and Data Services | Fall 2025"
+format: 
+  revealjs: 
+    code-overflow: wrap
+    footer: "S.Kelly | Getting Started with R | Fall 2025"
+editor: visual
+execute: 
+  echo: true
+---
+
+## Let's Get Started by loading the tidyverse
+
+```{r}
+library(tidyverse)
+search()
+```
+
+## Data Manipulation with dplyr
+
+ggplot2 is the most well-known package of the tidyverse suite, but I love dplyr. It's so useful! dplyr is how your subset and wrangle your data.
+
+![](images/dplyr.png){fig-align="center"}
+
+## Most dplyr functions are action verbs
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+glimpse() # quick preview of variables
+count() # count unique values of a variable
+arrange() # sort your data
+select() # grab particular variables
+relocate() # reorder your variables
+mutate() # create new variables
+group_by() # group your data
+summarize() # summary stats on grouped data
+filter() # grab observations that meet criteria
+slice_sample() # grab random observations
+```
+
+# Working with Variables
+
+## Last Week: cherryblossom package and run17 data
+
+```{r}
+library(cherryblossom)
+```
+
+![](images/cherryblossomflickr_adamFagen.jpg)
+
+
+## glimpse
+
+```{r}
+# glimpse is similar to summary from Base R
+glimpse(run17)
+```
+
+## count
+
+Count the unique values of a variable
+
+```{r}
+# count(df, variable)
+count(run17, event)
+```
+
+## tidyverse pipe \|\>
+
+```{r}
+run17 |> 
+  count(event)
+```
+
+Previous convention was to use the magrittr pipe: %\>%
+
+Now back to Base R pipe: \|\>
+
+Mac Shortcut: Command + Shift + M
+
+Windows Shortcut: Control + Shift + M
+
+## arrange
+
+Arrange allows you to sort the dataset by a column
+
+```{r}
+# default is ascending
+run17 |> 
+  arrange(pace_sec) |> 
+  head(7) 
+```
+
+## Descending arrange
+
+```{r}
+# descending arrangement
+run17 |> 
+  arrange(desc(pace_sec)) |> 
+  head(7)
+```
+
+## Activity: Arrange by two variables
+
+Can you arrange the run17 dataset by age & pace_sec?
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+run17 |> 
+  arrange(?) |> 
+  head(7) 
+```
+
+## Activity Check
+
+Arranging by two variables
+
+```{r}
+run17 |> 
+  arrange(age, pace_sec) |> 
+  head(7) 
+```
+
+## select
+
+The select function is how you grab columns.
+
+```{r}
+# select(df, columns)
+select(run17, city) 
+```
+
+How would you write that code above using the pipe?
+
+## Using select to reorder variables
+
+```{r}
+run17 |> 
+  select(event, pace_sec, everything()) |> 
+  head(5)
+```
+
+## Another option: relocate
+
+```{r}
+# default, variables are moved to the front
+run17 |> 
+  relocate(event, pace_sec) |> 
+  head(5)
+```
+
+## Other handy features of select
+
+What am I doing here?
+
+```{r}
+run17 |> 
+  select(-c(bib, clock_sec)) 
+```
+
+## Other handy features of select
+
+What about this?
+
+```{r}
+run17 |> 
+  select(name, contains("sec"))
+```
+
+## mutate
+
+Mutate creates new variables based on variables you already have in the dataframe
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+mutate(new_variable = old_variable)
+```
+
+<br> We have time to complete race in seconds. We want minutes. <br> How can we create that?
+
+## mutate and select
+
+```{r}
+run17 |> 
+  mutate(clock_min = clock_sec/60) |> 
+  select(name, clock_sec, clock_min) |> 
+  head()
+```
+
+## You can also mutate and then plot
+
+```{r}
+run17 |> 
+  mutate(clock_min = clock_sec/60) |> 
+  ggplot(aes(x = sex, y = clock_min, color = event)) + geom_boxplot(fill = "transparent")
+```
+
