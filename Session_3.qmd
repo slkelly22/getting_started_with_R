@@ -10,16 +10,130 @@ execute:
   echo: true
 ---
 
-## Let's Get Started by loading the tidyverse
+## Load the tidyverse package to get started 
 
 ```{r}
 library(tidyverse)
+
+# then run search to confirm which packages are loaded
 search()
 ```
 
+## Importing & Exporting Data
+
+How do we get external data into RStudio? How do we export data from RStudio? The tidyverse package for importing and exporting is readr.
+
+![](images/readr.png){fig-align="center"}
+
+## Importing Data with readr
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+# function to import a csv file
+read_csv()
+
+# only required argument is the pathway to file in quotation marks
+read_csv("~location_of_file")
+```
+
+## Importing Data with readr
+
+By default, the read_csv() function will import the first row as the column names.
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+# If your column names are on the third row
+read_csv("location_of_file", skip = 2)
+
+# You can also provide column names
+read_csv("location_of_file", 
+         col_names = c("ID", "first_name", "last_name", "status"))
+```
+
+## Importing Data
+
+You can also import data via the Environment pane (Import Dataset --\> From Text (readr))
+
+![](images/environment_pane_import.png){fig-align="center" width="600"}
+
+## Other Import | Export Packages
+
+For importing Excel, SAS, SPSS, and Stata files use the readxl and haven packages.
+
+![](images/readxl.png){width="350"}   ![](images/haven.png){width="350"}
+
+## Importing directly from a url
+
+1.  Go to data.gov
+
+2.  Search for electric vehicles
+
+3.  Select the "Electric Vehicle Population Data" from Washington State
+
+4.  Don't download, click on link for "Comma Separated Values File"
+
+5.  Right-click to copy the url to the file
+
+## Reading in the Data Directly
+
+```{r}
+ev <- read_csv("https://data.wa.gov/api/views/f6w7-q2d2/rows.csv?accessType=DOWNLOAD")
+```
+
+![](images/EV_Data_Screenshot.png){fig-align="center"}
+
+## Quick Look
+
+```{r}
+head(ev)
+```
+
+## Rename
+
+How do we get rid of the spaces in the variable names?
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+dataset <- dataset |> 
+  rename(new_var = old_var)
+```
+
+<br>
+
+```{r}
+ev <- ev |> 
+  rename(ev_type = `Electric Vehicle Type`, 
+         postal = `Postal Code`)
+```
+
+## Exporting Data
+
+Use the write_csv() function to export a comma-separated values file to your working directory. <br>
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+write_csv(data_to_export, "filename.csv")
+```
+
+<br>
+
+Let's export the ev object from the last slide as a csv file
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+write_csv(ev, "electric_vehicles_10.5.25.csv")
+```
+
+<br> Now check your working directory. Do you see it?
+
 ## Data Manipulation with dplyr
 
-ggplot2 is the most well-known package of the tidyverse suite, but I love dplyr. It's so useful! dplyr is how your subset and wrangle your data.
+ggplot2 is the most well-known package of the tidyverse suite, but dplyr might be the most useful. dplyr is how your subset and wrangle your data.
 
 ![](images/dplyr.png){fig-align="center"}
 
@@ -50,7 +164,6 @@ library(cherryblossom)
 
 ![](images/cherryblossomflickr_adamFagen.jpg)
 
-
 ## glimpse
 
 ```{r}
@@ -74,55 +187,15 @@ run17 |>
   count(event)
 ```
 
-Previous convention was to use the magrittr pipe: %\>%
+Previous convention was the magrittr pipe: %\>%
 
-Now back to Base R pipe: \|\>
+Current convention: \|\>
+
+The both work the same way.
 
 Mac Shortcut: Command + Shift + M
 
 Windows Shortcut: Control + Shift + M
-
-## arrange
-
-Arrange allows you to sort the dataset by a column
-
-```{r}
-# default is ascending
-run17 |> 
-  arrange(pace_sec) |> 
-  head(7) 
-```
-
-## Descending arrange
-
-```{r}
-# descending arrangement
-run17 |> 
-  arrange(desc(pace_sec)) |> 
-  head(7)
-```
-
-## Activity: Arrange by two variables
-
-Can you arrange the run17 dataset by age & pace_sec?
-
-```{r}
-#| echo: TRUE
-#| eval: FALSE
-run17 |> 
-  arrange(?) |> 
-  head(7) 
-```
-
-## Activity Check
-
-Arranging by two variables
-
-```{r}
-run17 |> 
-  arrange(age, pace_sec) |> 
-  head(7) 
-```
 
 ## select
 
@@ -135,20 +208,24 @@ select(run17, city)
 
 How would you write that code above using the pipe?
 
-## Using select to reorder variables
+## Select is very versatile
 
+```{r}
+run17 |> 
+  select(name:city, event)  |> 
+  head(3)
+```
+<br>
+```{r}
+run17 |> 
+  select(ends_with("sec")) |> 
+  head(2)
+```
+
+## You can also move your variables with select
 ```{r}
 run17 |> 
   select(event, pace_sec, everything()) |> 
-  head(5)
-```
-
-## Another option: relocate
-
-```{r}
-# default, variables are moved to the front
-run17 |> 
-  relocate(event, pace_sec) |> 
   head(5)
 ```
 
@@ -161,13 +238,13 @@ run17 |>
   select(-c(bib, clock_sec)) 
 ```
 
-## Other handy features of select
+## Activity: Can you select all columns except the bib column? 
 
-What about this?
+## Activity Check
 
 ```{r}
 run17 |> 
-  select(name, contains("sec"))
+  select(-c(bib))
 ```
 
 ## mutate
@@ -191,11 +268,85 @@ run17 |>
   head()
 ```
 
-## You can also mutate and then plot
+## You can combine dplyr and ggplot2 functions
 
 ```{r}
 run17 |> 
   mutate(clock_min = clock_sec/60) |> 
-  ggplot(aes(x = sex, y = clock_min, color = event)) + geom_boxplot(fill = "transparent")
+  ggplot(aes(x = sex, y = clock_min, color = event)) + 
+  geom_boxplot(fill = "white")
 ```
 
+# Working with Rows
+
+## Logical Comparisons & Boolean Operators in R
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+== # is equal to
+!= # is not equal to
+>= # greater than or equal to
+<= # less than or equal to
+is.na # is missing
+!is.na # is not missing
+```
+
+<br>
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+& # AND
+| # OR
+! # NOT
+```
+
+## Review these comparisons
+
+```{r}
+"red" == "blue"
+"red" == "red"
+-11 > 10
+7 == 5|7
+```
+
+## filter
+
+```{r}
+run17 |> 
+  filter(event == "5K") |> 
+  head(10)
+```
+
+## Let's filter even more...
+
+```{r}
+run17 |> 
+  filter(event == "5K" & sex == "M") |> 
+  head(10)
+```
+
+## Final Activity
+
+Filter the run17 dataset to only men over 40 who ran the 10 mile race
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+run17 |> 
+  filter(? == ? & ? >= ? & ? == ?)
+```
+
+## Activity Check
+
+```{r}
+run17 |> 
+  filter(event == "10 Mile" & age >= 40 & sex == "M")
+```
+
+## Next Week
+
+We'll add more plotting from ggplot2 and additional functions from dplyr
+
+![](images/ggplot2.png){width="350"}   ![](images/dplyr.png){width="350"}

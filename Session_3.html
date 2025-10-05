@@ -203,11 +203,13 @@ S. Kelly | Scholar Support and Data Services | Fall 2025
 </div>
 
 </section>
-<section id="lets-get-started-by-loading-the-tidyverse" class="slide level2">
-<h2>Let’s Get Started by loading the tidyverse</h2>
+<section id="load-the-tidyverse-package-to-get-started" class="slide level2">
+<h2>Load the tidyverse package to get started</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href=""></a><span class="fu">search</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href=""></a></span>
+<span id="cb1-3"><a href=""></a><span class="co"># then run search to confirm which packages are loaded</span></span>
+<span id="cb1-4"><a href=""></a><span class="fu">search</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] ".GlobalEnv"        "package:lubridate" "package:forcats"  
  [4] "package:stringr"   "package:dplyr"     "package:purrr"    
@@ -219,24 +221,127 @@ S. Kelly | Scholar Support and Data Services | Fall 2025
 </div>
 </div>
 </section>
+<section id="importing-exporting-data" class="slide level2">
+<h2>Importing &amp; Exporting Data</h2>
+<p>How do we get external data into RStudio? How do we export data from RStudio? The tidyverse package for importing and exporting is readr.</p>
+
+<img data-src="images/readr.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="importing-data-with-readr" class="slide level2">
+<h2>Importing Data with readr</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="co"># function to import a csv file</span></span>
+<span id="cb3-2"><a href=""></a><span class="fu">read_csv</span>()</span>
+<span id="cb3-3"><a href=""></a></span>
+<span id="cb3-4"><a href=""></a><span class="co"># only required argument is the pathway to file in quotation marks</span></span>
+<span id="cb3-5"><a href=""></a><span class="fu">read_csv</span>(<span class="st">"~location_of_file"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="importing-data-with-readr-1" class="slide level2">
+<h2>Importing Data with readr</h2>
+<p>By default, the read_csv() function will import the first row as the column names.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="co"># If your column names are on the third row</span></span>
+<span id="cb4-2"><a href=""></a><span class="fu">read_csv</span>(<span class="st">"location_of_file"</span>, <span class="at">skip =</span> <span class="dv">2</span>)</span>
+<span id="cb4-3"><a href=""></a></span>
+<span id="cb4-4"><a href=""></a><span class="co"># You can also provide column names</span></span>
+<span id="cb4-5"><a href=""></a><span class="fu">read_csv</span>(<span class="st">"location_of_file"</span>, </span>
+<span id="cb4-6"><a href=""></a>         <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"ID"</span>, <span class="st">"first_name"</span>, <span class="st">"last_name"</span>, <span class="st">"status"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="importing-data" class="slide level2">
+<h2>Importing Data</h2>
+<p>You can also import data via the Environment pane (Import Dataset –&gt; From Text (readr))</p>
+
+<img data-src="images/environment_pane_import.png" class="quarto-figure quarto-figure-center r-stretch" width="600"></section>
+<section id="other-import-export-packages" class="slide level2">
+<h2>Other Import | Export Packages</h2>
+<p>For importing Excel, SAS, SPSS, and Stata files use the readxl and haven packages.</p>
+<p><img data-src="images/readxl.png" width="350">&nbsp;&nbsp;&nbsp;<img data-src="images/haven.png" width="350"></p>
+</section>
+<section id="importing-directly-from-a-url" class="slide level2">
+<h2>Importing directly from a url</h2>
+<ol type="1">
+<li><p>Go to data.gov</p></li>
+<li><p>Search for electric vehicles</p></li>
+<li><p>Select the “Electric Vehicle Population Data” from Washington State</p></li>
+<li><p>Don’t download, click on link for “Comma Separated Values File”</p></li>
+<li><p>Right-click to copy the url to the file</p></li>
+</ol>
+</section>
+<section id="reading-in-the-data-directly" class="slide level2">
+<h2>Reading in the Data Directly</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>ev <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://data.wa.gov/api/views/f6w7-q2d2/rows.csv?accessType=DOWNLOAD"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+<img data-src="images/EV_Data_Screenshot.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="quick-look" class="slide level2">
+<h2>Quick Look</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">head</span>(ev)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 17
+  `VIN (1-10)` County    City       State `Postal Code` `Model Year` Make  Model
+  &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;         &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;
+1 JTDKN3DP2D   Yakima    Yakima     WA            98902         2013 TOYO… PRIUS
+2 1FMCU0E1XS   Kitsap    Port Orch… WA            98366         2025 FORD  ESCA…
+3 JM3KKBHA9R   Kitsap    Kingston   WA            98346         2024 MAZDA CX-90
+4 7SAYGDEE8P   Thurston  Olympia    WA            98501         2023 TESLA MODE…
+5 5YJ3E1EB5K   Thurston  Rainier    WA            98576         2019 TESLA MODE…
+6 5YJ3E1EA6K   Snohomish Snohomish  WA            98296         2019 TESLA MODE…
+# ℹ 9 more variables: `Electric Vehicle Type` &lt;chr&gt;,
+#   `Clean Alternative Fuel Vehicle (CAFV) Eligibility` &lt;chr&gt;,
+#   `Electric Range` &lt;dbl&gt;, `Base MSRP` &lt;dbl&gt;, `Legislative District` &lt;dbl&gt;,
+#   `DOL Vehicle ID` &lt;dbl&gt;, `Vehicle Location` &lt;chr&gt;, `Electric Utility` &lt;chr&gt;,
+#   `2020 Census Tract` &lt;chr&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="rename" class="slide level2">
+<h2>Rename</h2>
+<p>How do we get rid of the spaces in the variable names?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>dataset <span class="ot">&lt;-</span> dataset <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href=""></a>  <span class="fu">rename</span>(<span class="at">new_var =</span> old_var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>ev <span class="ot">&lt;-</span> ev <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href=""></a>  <span class="fu">rename</span>(<span class="at">ev_type =</span> <span class="st">`</span><span class="at">Electric Vehicle Type</span><span class="st">`</span>, </span>
+<span id="cb9-3"><a href=""></a>         <span class="at">postal =</span> <span class="st">`</span><span class="at">Postal Code</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="exporting-data" class="slide level2">
+<h2>Exporting Data</h2>
+<p>Use the write_csv() function to export a comma-separated values file to your working directory. <br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">write_csv</span>(data_to_export, <span class="st">"filename.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Let’s export the ev object from the last slide as a csv file</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">write_csv</span>(ev, <span class="st">"electric_vehicles_10.5.25.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br> Now check your working directory. Do you see it?</p>
+</section>
 <section id="data-manipulation-with-dplyr" class="slide level2">
 <h2>Data Manipulation with dplyr</h2>
-<p>ggplot2 is the most well-known package of the tidyverse suite, but I love dplyr. It’s so useful! dplyr is how your subset and wrangle your data.</p>
+<p>ggplot2 is the most well-known package of the tidyverse suite, but dplyr might be the most useful. dplyr is how your subset and wrangle your data.</p>
 
 <img data-src="images/dplyr.png" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="most-dplyr-functions-are-action-verbs" class="slide level2">
 <h2>Most dplyr functions are action verbs</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">glimpse</span>() <span class="co"># quick preview of variables</span></span>
-<span id="cb3-2"><a href=""></a><span class="fu">count</span>() <span class="co"># count unique values of a variable</span></span>
-<span id="cb3-3"><a href=""></a><span class="fu">arrange</span>() <span class="co"># sort your data</span></span>
-<span id="cb3-4"><a href=""></a><span class="fu">select</span>() <span class="co"># grab particular variables</span></span>
-<span id="cb3-5"><a href=""></a><span class="fu">relocate</span>() <span class="co"># reorder your variables</span></span>
-<span id="cb3-6"><a href=""></a><span class="fu">mutate</span>() <span class="co"># create new variables</span></span>
-<span id="cb3-7"><a href=""></a><span class="fu">group_by</span>() <span class="co"># group your data</span></span>
-<span id="cb3-8"><a href=""></a><span class="fu">summarize</span>() <span class="co"># summary stats on grouped data</span></span>
-<span id="cb3-9"><a href=""></a><span class="fu">filter</span>() <span class="co"># grab observations that meet criteria</span></span>
-<span id="cb3-10"><a href=""></a><span class="fu">slice_sample</span>() <span class="co"># grab random observations</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">glimpse</span>() <span class="co"># quick preview of variables</span></span>
+<span id="cb12-2"><a href=""></a><span class="fu">count</span>() <span class="co"># count unique values of a variable</span></span>
+<span id="cb12-3"><a href=""></a><span class="fu">arrange</span>() <span class="co"># sort your data</span></span>
+<span id="cb12-4"><a href=""></a><span class="fu">select</span>() <span class="co"># grab particular variables</span></span>
+<span id="cb12-5"><a href=""></a><span class="fu">relocate</span>() <span class="co"># reorder your variables</span></span>
+<span id="cb12-6"><a href=""></a><span class="fu">mutate</span>() <span class="co"># create new variables</span></span>
+<span id="cb12-7"><a href=""></a><span class="fu">group_by</span>() <span class="co"># group your data</span></span>
+<span id="cb12-8"><a href=""></a><span class="fu">summarize</span>() <span class="co"># summary stats on grouped data</span></span>
+<span id="cb12-9"><a href=""></a><span class="fu">filter</span>() <span class="co"># grab observations that meet criteria</span></span>
+<span id="cb12-10"><a href=""></a><span class="fu">slice_sample</span>() <span class="co"># grab random observations</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section>
@@ -247,15 +352,15 @@ S. Kelly | Scholar Support and Data Services | Fall 2025
 <section id="last-week-cherryblossom-package-and-run17-data" class="slide level2">
 <h2>Last Week: cherryblossom package and run17 data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="fu">library</span>(cherryblossom)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">library</span>(cherryblossom)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 <img data-src="images/cherryblossomflickr_adamFagen.jpg" class="r-stretch"></section>
 <section id="glimpse" class="slide level2">
 <h2>glimpse</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="co"># glimpse is similar to summary from Base R</span></span>
-<span id="cb5-2"><a href=""></a><span class="fu">glimpse</span>(run17)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="co"># glimpse is similar to summary from Base R</span></span>
+<span id="cb14-2"><a href=""></a><span class="fu">glimpse</span>(run17)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 19,961
 Columns: 9
@@ -275,8 +380,8 @@ $ event     &lt;chr&gt; "10 Mile", "10 Mile", "10 Mile", "10 Mile", "10 Mile", "
 <h2>count</h2>
 <p>Count the unique values of a variable</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="co"># count(df, variable)</span></span>
-<span id="cb7-2"><a href=""></a><span class="fu">count</span>(run17, event)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="co"># count(df, variable)</span></span>
+<span id="cb16-2"><a href=""></a><span class="fu">count</span>(run17, event)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 2
   event       n
@@ -289,8 +394,8 @@ $ event     &lt;chr&gt; "10 Mile", "10 Mile", "10 Mile", "10 Mile", "10 Mile", "
 <section id="tidyverse-pipe" class="slide level2">
 <h2>tidyverse pipe |&gt;</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb9-2"><a href=""></a>  <span class="fu">count</span>(event)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href=""></a>  <span class="fu">count</span>(event)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 2
   event       n
@@ -299,90 +404,18 @@ $ event     &lt;chr&gt; "10 Mile", "10 Mile", "10 Mile", "10 Mile", "10 Mile", "
 2 5K       2519</code></pre>
 </div>
 </div>
-<p>Previous convention was to use the magrittr pipe: %&gt;%</p>
-<p>Now back to Base R pipe: |&gt;</p>
+<p>Previous convention was the magrittr pipe: %&gt;%</p>
+<p>Current convention: |&gt;</p>
+<p>The both work the same way.</p>
 <p>Mac Shortcut: Command + Shift + M</p>
 <p>Windows Shortcut: Control + Shift + M</p>
-</section>
-<section id="arrange" class="slide level2">
-<h2>arrange</h2>
-<p>Arrange allows you to sort the dataset by a column</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="co"># default is ascending</span></span>
-<span id="cb11-2"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb11-3"><a href=""></a>  <span class="fu">arrange</span>(pace_sec) <span class="sc">|&gt;</span> </span>
-<span id="cb11-4"><a href=""></a>  <span class="fu">head</span>(<span class="dv">7</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 7 × 9
-    bib name        sex     age city        net_sec clock_sec pace_sec event  
-  &lt;int&gt; &lt;chr&gt;       &lt;chr&gt; &lt;int&gt; &lt;chr&gt;         &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;  
-1    51 Stanley K.  M        27 Oakland, CA    2796      2796      279 10 Mile
-2    55 James K.    M        28 Kenya          2799      2799      279 10 Mile
-3    13 Birhan N.   M        22 Ethiopia       2802      2802      280 10 Mile
-4     9 Philemon C. M        23 Kenya          2803      2803      280 10 Mile
-5    63 Evans K.    M        24 Kenya          2803      2803      280 10 Mile
-6    53 Dominic K.  M        23 Kenya          2805      2805      280 10 Mile
-7     3 Edwin R.    M        28 Kenya          2806      2806      280 10 Mile</code></pre>
-</div>
-</div>
-</section>
-<section id="descending-arrange" class="slide level2">
-<h2>Descending arrange</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="co"># descending arrangement</span></span>
-<span id="cb13-2"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb13-3"><a href=""></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(pace_sec)) <span class="sc">|&gt;</span> </span>
-<span id="cb13-4"><a href=""></a>  <span class="fu">head</span>(<span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 7 × 9
-    bib name       sex     age city             net_sec clock_sec pace_sec event
-  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;
-1 25140 Vanessa C. F        25 Manassas, VA        5472      5472     1759 5K   
-2 25160 Jony R.    M        37 Woodbridge, VA      5287      5334     1700 5K   
-3 25153 Andres E.  M        33 Woodbridge, VA      5287      5334     1700 5K   
-4 24078 Maryann M. F        67 Ellicott City, …    4612      4695     1482 5K   
-5 24422 Mary E.    F        53 Springfield, PA     4609      4694     1481 5K   
-6 23421 John P.    M        67 Baltimore, MD       4501      4674     1447 5K   
-7 15179 Edward S.  M        40 Eldersburg, MD      4500      4675     1446 5K   </code></pre>
-</div>
-</div>
-</section>
-<section id="activity-arrange-by-two-variables" class="slide level2">
-<h2>Activity: Arrange by two variables</h2>
-<p>Can you arrange the run17 dataset by age &amp; pace_sec?</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb15-2"><a href=""></a>  <span class="fu">arrange</span>(?) <span class="sc">|&gt;</span> </span>
-<span id="cb15-3"><a href=""></a>  <span class="fu">head</span>(<span class="dv">7</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="activity-check" class="slide level2">
-<h2>Activity Check</h2>
-<p>Arranging by two variables</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb16-2"><a href=""></a>  <span class="fu">arrange</span>(age, pace_sec) <span class="sc">|&gt;</span> </span>
-<span id="cb16-3"><a href=""></a>  <span class="fu">head</span>(<span class="dv">7</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 7 × 9
-    bib name       sex     age city             net_sec clock_sec pace_sec event
-  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;
-1 24696 Helena H.  F         6 Arlington, VA       2490      2535      800 5K   
-2 23610 Jarrett K. M         6 Gaithersburg, MD    2651      2673      852 5K   
-3 25187 Byron A.   M         6 Sterling, VA        2895      3023      930 5K   
-4 24466 Sofia K.   F         6 Bethesda, MD        3118      3235     1002 5K   
-5 24464 Arif K.    M         7 Bethesda, MD        3058      3173      983 5K   
-6 23924 James R.   M         7 Southbridge, VA     3164      3216     1017 5K   
-7  1751 Bruno Z.   M         8 Chevy Chase, MD     2033      2049      653 5K   </code></pre>
-</div>
-</div>
 </section>
 <section id="select" class="slide level2">
 <h2>select</h2>
 <p>The select function is how you grab columns.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="co"># select(df, columns)</span></span>
-<span id="cb18-2"><a href=""></a><span class="fu">select</span>(run17, city) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="co"># select(df, columns)</span></span>
+<span id="cb20-2"><a href=""></a><span class="fu">select</span>(run17, city) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 19,961 × 1
    city                
@@ -402,31 +435,41 @@ $ event     &lt;chr&gt; "10 Mile", "10 Mile", "10 Mile", "10 Mile", "10 Mile", "
 </div>
 <p>How would you write that code above using the pipe?</p>
 </section>
-<section id="using-select-to-reorder-variables" class="slide level2">
-<h2>Using select to reorder variables</h2>
+<section id="select-is-very-versatile" class="slide level2">
+<h2>Select is very versatile</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb20-2"><a href=""></a>  <span class="fu">select</span>(event, pace_sec, <span class="fu">everything</span>()) <span class="sc">|&gt;</span> </span>
-<span id="cb20-3"><a href=""></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href=""></a>  <span class="fu">select</span>(name<span class="sc">:</span>city, event)  <span class="sc">|&gt;</span> </span>
+<span id="cb22-3"><a href=""></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 9
-  event   pace_sec   bib name        sex     age city     net_sec clock_sec
-  &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;       &lt;chr&gt; &lt;int&gt; &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;
-1 10 Mile      321     6 Hiwot G.    F        21 Ethiopia    3217      3217
-2 10 Mile      323    22 Buze D.     F        22 Ethiopia    3232      3232
-3 10 Mile      327    16 Gladys K.   F        31 Kenya       3276      3276
-4 10 Mile      328     4 Mamitu D.   F        33 Ethiopia    3285      3285
-5 10 Mile      328    20 Karolina N. F        35 Poland      3288      3288</code></pre>
+<pre><code># A tibble: 3 × 5
+  name      sex     age city     event  
+  &lt;chr&gt;     &lt;chr&gt; &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;  
+1 Hiwot G.  F        21 Ethiopia 10 Mile
+2 Buze D.   F        22 Ethiopia 10 Mile
+3 Gladys K. F        31 Kenya    10 Mile</code></pre>
+</div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href=""></a>  <span class="fu">select</span>(<span class="fu">ends_with</span>(<span class="st">"sec"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb24-3"><a href=""></a>  <span class="fu">head</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  net_sec clock_sec pace_sec
+    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1    3217      3217      321
+2    3232      3232      323</code></pre>
 </div>
 </div>
 </section>
-<section id="another-option-relocate" class="slide level2">
-<h2>Another option: relocate</h2>
+<section id="you-can-also-move-your-variables-with-select" class="slide level2">
+<h2>You can also move your variables with select</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="co"># default, variables are moved to the front</span></span>
-<span id="cb22-2"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb22-3"><a href=""></a>  <span class="fu">relocate</span>(event, pace_sec) <span class="sc">|&gt;</span> </span>
-<span id="cb22-4"><a href=""></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href=""></a>  <span class="fu">select</span>(event, pace_sec, <span class="fu">everything</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb26-3"><a href=""></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 9
   event   pace_sec   bib name        sex     age city     net_sec clock_sec
@@ -443,8 +486,8 @@ $ event     &lt;chr&gt; "10 Mile", "10 Mile", "10 Mile", "10 Mile", "10 Mile", "
 <h2>Other handy features of select</h2>
 <p>What am I doing here?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb24-2"><a href=""></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(bib, clock_sec)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb28-2"><a href=""></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(bib, clock_sec)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 19,961 × 7
    name         sex     age city                 net_sec pace_sec event  
@@ -463,26 +506,28 @@ $ event     &lt;chr&gt; "10 Mile", "10 Mile", "10 Mile", "10 Mile", "10 Mile", "
 </div>
 </div>
 </section>
-<section id="other-handy-features-of-select-1" class="slide level2">
-<h2>Other handy features of select</h2>
-<p>What about this?</p>
+<section id="activity-can-you-select-all-columns-except-the-bib-column" class="slide level2">
+<h2>Activity: Can you select all columns except the bib column?</h2>
+</section>
+<section id="activity-check" class="slide level2">
+<h2>Activity Check</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb26-2"><a href=""></a>  <span class="fu">select</span>(name, <span class="fu">contains</span>(<span class="st">"sec"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb30-2"><a href=""></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(bib))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 19,961 × 4
-   name         net_sec clock_sec pace_sec
-   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
- 1 Hiwot G.        3217      3217      321
- 2 Buze D.         3232      3232      323
- 3 Gladys K.       3276      3276      327
- 4 Mamitu D.       3285      3285      328
- 5 Karolina N.     3288      3288      328
- 6 Firehiwot D.    3316      3316      331
- 7 Tara W.         3334      3334      333
- 8 Nancy N.        3357      3357      335
- 9 Hannah D.       3359      3359      335
-10 Susanna S.      3372      3372      337
+<pre><code># A tibble: 19,961 × 8
+   name         sex     age city                net_sec clock_sec pace_sec event
+   &lt;chr&gt;        &lt;chr&gt; &lt;int&gt; &lt;chr&gt;                 &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;
+ 1 Hiwot G.     F        21 Ethiopia               3217      3217      321 10 M…
+ 2 Buze D.      F        22 Ethiopia               3232      3232      323 10 M…
+ 3 Gladys K.    F        31 Kenya                  3276      3276      327 10 M…
+ 4 Mamitu D.    F        33 Ethiopia               3285      3285      328 10 M…
+ 5 Karolina N.  F        35 Poland                 3288      3288      328 10 M…
+ 6 Firehiwot D. F        33 Ethiopia               3316      3316      331 10 M…
+ 7 Tara W.      F        27 Portland, OR           3334      3334      333 10 M…
+ 8 Nancy N.     F        21 Kenya                  3357      3357      335 10 M…
+ 9 Hannah D.    F        26 Saratoga Springs, …    3359      3359      335 10 M…
+10 Susanna S.   F        26 Reston, VA             3372      3372      337 10 M…
 # ℹ 19,951 more rows</code></pre>
 </div>
 </div>
@@ -491,17 +536,17 @@ $ event     &lt;chr&gt; "10 Mile", "10 Mile", "10 Mile", "10 Mile", "10 Mile", "
 <h2>mutate</h2>
 <p>Mutate creates new variables based on variables you already have in the dataframe</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="fu">mutate</span>(<span class="at">new_variable =</span> old_variable)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="fu">mutate</span>(<span class="at">new_variable =</span> old_variable)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br> We have time to complete race in seconds. We want minutes. <br> How can we create that?</p>
 </section>
 <section id="mutate-and-select" class="slide level2">
 <h2>mutate and select</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb29-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">clock_min =</span> clock_sec<span class="sc">/</span><span class="dv">60</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb29-3"><a href=""></a>  <span class="fu">select</span>(name, clock_sec, clock_min) <span class="sc">|&gt;</span> </span>
-<span id="cb29-4"><a href=""></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb33-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">clock_min =</span> clock_sec<span class="sc">/</span><span class="dv">60</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb33-3"><a href=""></a>  <span class="fu">select</span>(name, clock_sec, clock_min) <span class="sc">|&gt;</span> </span>
+<span id="cb33-4"><a href=""></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   name         clock_sec clock_min
@@ -515,16 +560,142 @@ $ event     &lt;chr&gt; "10 Mile", "10 Mile", "10 Mile", "10 Mile", "10 Mile", "
 </div>
 </div>
 </section>
-<section id="you-can-also-mutate-and-then-plot" class="slide level2">
-<h2>You can also mutate and then plot</h2>
+<section id="you-can-combine-dplyr-and-ggplot2-functions" class="slide level2">
+<h2>You can combine dplyr and ggplot2 functions</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb31-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">clock_min =</span> clock_sec<span class="sc">/</span><span class="dv">60</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb31-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sex, <span class="at">y =</span> clock_min, <span class="at">color =</span> event)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"transparent"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb35-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">clock_min =</span> clock_sec<span class="sc">/</span><span class="dv">60</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb35-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sex, <span class="at">y =</span> clock_min, <span class="at">color =</span> event)) <span class="sc">+</span> </span>
+<span id="cb35-4"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
+<img data-src="Session_3_files/figure-revealjs/unnamed-chunk-23-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="working-with-rows" class="title-slide slide level1 center">
+<h1>Working with Rows</h1>
 
-<img data-src="Session_3_files/figure-revealjs/unnamed-chunk-18-1.png" width="960" class="r-stretch"></section></section>
+</section>
+<section id="logical-comparisons-boolean-operators-in-r" class="slide level2">
+<h2>Logical Comparisons &amp; Boolean Operators in R</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a><span class="sc">==</span> <span class="co"># is equal to</span></span>
+<span id="cb36-2"><a href=""></a><span class="er">!=</span> <span class="co"># is not equal to</span></span>
+<span id="cb36-3"><a href=""></a><span class="er">&gt;=</span> <span class="co"># greater than or equal to</span></span>
+<span id="cb36-4"><a href=""></a><span class="er">&lt;=</span> <span class="co"># less than or equal to</span></span>
+<span id="cb36-5"><a href=""></a>is.na <span class="co"># is missing</span></span>
+<span id="cb36-6"><a href=""></a><span class="sc">!</span>is.na <span class="co"># is not missing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="sc">&amp;</span> <span class="co"># AND</span></span>
+<span id="cb37-2"><a href=""></a><span class="er">|</span> <span class="co"># OR</span></span>
+<span id="cb37-3"><a href=""></a><span class="sc">!</span> <span class="co"># NOT</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="review-these-comparisons" class="slide level2">
+<h2>Review these comparisons</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href=""></a><span class="st">"red"</span> <span class="sc">==</span> <span class="st">"blue"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href=""></a><span class="st">"red"</span> <span class="sc">==</span> <span class="st">"red"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href=""></a><span class="sc">-</span><span class="dv">11</span> <span class="sc">&gt;</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href=""></a><span class="dv">7</span> <span class="sc">==</span> <span class="dv">5</span><span class="sc">|</span><span class="dv">7</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="filter" class="slide level2">
+<h2>filter</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb46-2"><a href=""></a>  <span class="fu">filter</span>(event <span class="sc">==</span> <span class="st">"5K"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb46-3"><a href=""></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 9
+     bib name         sex     age city          net_sec clock_sec pace_sec event
+   &lt;int&gt; &lt;chr&gt;        &lt;chr&gt; &lt;int&gt; &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;
+ 1   266 Lisa G.      F        33 Washington, …    1275      1275      409 5K   
+ 2  6606 Jennifer P.  F        33 Alexandria, …    1296      1296      416 5K   
+ 3 23060 Christina M. F        52 Severna Park…    1309      1309      420 5K   
+ 4   316 Lisa C.      F        46 North Bethes…    1319      1320      424 5K   
+ 5 23517 Meghan Z.    F        28 Chappaqua, NY    1372      1374      441 5K   
+ 6  3239 Pamela D.    F        33 Washington, …    1402      1405      450 5K   
+ 7 21787 Kelly M.     F        32 Washington, …    1411      1418      453 5K   
+ 8 23952 Brisa B.     F        23 Washington, …    1414      1439      454 5K   
+ 9 24928 Lindsay T.   F        30 Arlington, VA    1424      1424      457 5K   
+10  2890 Darcy J.     F        32 Alexandria, …    1432      1477      460 5K   </code></pre>
+</div>
+</div>
+</section>
+<section id="lets-filter-even-more" class="slide level2">
+<h2>Let’s filter even more…</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb48-2"><a href=""></a>  <span class="fu">filter</span>(event <span class="sc">==</span> <span class="st">"5K"</span> <span class="sc">&amp;</span> sex <span class="sc">==</span> <span class="st">"M"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb48-3"><a href=""></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 9
+     bib name         sex     age city          net_sec clock_sec pace_sec event
+   &lt;int&gt; &lt;chr&gt;        &lt;chr&gt; &lt;int&gt; &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;
+ 1 23731 Iber G.      M        29 New York, NY     1078      1078      346 5K   
+ 2 24018 Jared D.     M        21 Cherry Hill,…    1093      1095      351 5K   
+ 3 24234 John M.      M        24 Washington, …    1117      1117      359 5K   
+ 4 23531 Offir G.     M        29 New York, NY     1163      1164      373 5K   
+ 5 24794 James S.     M        31 Enfield, NH      1165      1166      374 5K   
+ 6  1109 Mark T.      M        28 Montreal, QC     1177      1177      378 5K   
+ 7  1401 Andrew L.    M        32 Washington, …    1183      1183      380 5K   
+ 8 23944 Chris C.     M        27 Norwood, MA      1186      1186      381 5K   
+ 9   624 Zach O.      M        25 Arlington, VA    1188      1188      381 5K   
+10 21760 Sebastien G. M        40 Arlington, VA    1259      1259      404 5K   </code></pre>
+</div>
+</div>
+</section>
+<section id="final-activity" class="slide level2">
+<h2>Final Activity</h2>
+<p>Filter the run17 dataset to only men over 40 who ran the 10 mile race</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb50-2"><a href=""></a>  <span class="fu">filter</span>(? <span class="sc">==</span> ? <span class="sc">&amp;</span> ? <span class="sc">&gt;=</span> ? <span class="sc">&amp;</span> ? <span class="sc">==</span> ?)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="activity-check-1" class="slide level2">
+<h2>Activity Check</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb51-2"><a href=""></a>  <span class="fu">filter</span>(event <span class="sc">==</span> <span class="st">"10 Mile"</span> <span class="sc">&amp;</span> age <span class="sc">&gt;=</span> <span class="dv">40</span> <span class="sc">&amp;</span> sex <span class="sc">==</span> <span class="st">"M"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2,959 × 9
+     bib name         sex     age city          net_sec clock_sec pace_sec event
+   &lt;int&gt; &lt;chr&gt;        &lt;chr&gt; &lt;int&gt; &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;
+ 1   129 David W.     M        41 Arlington, VA    3196      3198      319 10 M…
+ 2   127 Philippe R.  M        44 Mclean, VA       3218      3220      321 10 M…
+ 3 23050 Matthew W.   M        40 Ogden, UT        3399      3406      339 10 M…
+ 4   145 Knox R.      M        42 Brooklyn, NY     3402      3403      340 10 M…
+ 5   597 Shane S.     M        45 Viera, FL        3442      3448      344 10 M…
+ 6   147 David O.     M        40 Alexandria, …    3447      3449      344 10 M…
+ 7   152 Noah Z.      M        45 Washington, …    3450      3453      345 10 M…
+ 8   620 Brian H.     M        40 Silver Sprin…    3500      3513      350 10 M…
+ 9   166 Martin L.    M        43 Bethesda, MD     3528      3530      352 10 M…
+10   168 Alexander H. M        49 Vienna, VA       3548      3554      354 10 M…
+# ℹ 2,949 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="next-week" class="slide level2">
+<h2>Next Week</h2>
+<p>We’ll add more plotting from ggplot2 and additional functions from dplyr</p>
+<p><img data-src="images/ggplot2.png" width="350">&nbsp;&nbsp;&nbsp;<img data-src="images/dplyr.png" width="350"></p>
+
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
