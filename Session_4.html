@@ -203,8 +203,13 @@ S. Kelly | Scholar Support and Data Services | Fall 2025
 </div>
 
 </section>
-<section id="open-your-r-project-create-a-.r-file-load-r-packages" class="slide level2">
-<h2>Open your R project, create a .R file, &amp; load R packages</h2>
+<section id="lets-get-started" class="slide level2">
+<h2>Let’s get started</h2>
+<ol type="1">
+<li>Open your R project</li>
+<li>Create a new weekly .R file,</li>
+<li>Load R packages that we’ll use today</li>
+</ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href=""></a><span class="fu">library</span>(cherryblossom)</span>
@@ -371,8 +376,8 @@ S. Kelly | Scholar Support and Data Services | Fall 2025
 </div>
 </div>
 </section>
-<section id="what-are-the-top-three-names-of-runners" class="slide level2">
-<h2>What are the top three names of runners?</h2>
+<section id="what-are-most-frequent-names-of-runners" class="slide level2">
+<h2>What are most frequent names of runners?</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
 <span id="cb22-2"><a href=""></a>  <span class="fu">count</span>(name, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
@@ -389,6 +394,52 @@ S. Kelly | Scholar Support and Data Services | Fall 2025
 6 John S.         23</code></pre>
 </div>
 </div>
+</section>
+<section id="filter-the-data-to-michaels-and-jennifers" class="slide level2">
+<h2>Filter the data to Michaels and Jennifers</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href=""></a>  <span class="fu">filter</span>(name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Michael M."</span>, <span class="st">"Jennifer S."</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb24-3"><a href=""></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 9
+    bib name        sex     age city            net_sec clock_sec pace_sec event
+  &lt;int&gt; &lt;chr&gt;       &lt;chr&gt; &lt;int&gt; &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;
+1   981 Jennifer S. F        42 Chevy Chase, MD    4241      4256      424 10 M…
+2  2888 Jennifer S. F        27 Pittsburgh, PA     4359      4545      435 10 M…
+3 21777 Jennifer S. F        37 Washington, DC     4441      4677      444 10 M…
+4  3107 Jennifer S. F        45 Rockville, MD      4824      5103      482 10 M…
+5  5540 Jennifer S. F        30 Washington, DC     5198      5630      519 10 M…
+6  7260 Jennifer S. F        44 Washington, DC     5204      5708      520 10 M…</code></pre>
+</div>
+</div>
+</section>
+<section id="what-events-do-they-do" class="slide level2">
+<h2>What events do they do?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href=""></a>  <span class="fu">filter</span>(name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Michael M."</span>, <span class="st">"Jennifer S."</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb26-3"><a href=""></a>  <span class="fu">count</span>(event)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  event       n
+  &lt;chr&gt;   &lt;int&gt;
+1 10 Mile    48
+2 5K         10</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb28-2"><a href=""></a>  <span class="fu">filter</span>(name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Michael M."</span>, <span class="st">"Jennifer S."</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb28-3"><a href=""></a>  <span class="fu">count</span>(event, name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  event   name            n
+  &lt;chr&gt;   &lt;chr&gt;       &lt;int&gt;
+1 10 Mile Jennifer S.    21
+2 10 Mile Michael M.     27
+3 5K      Jennifer S.     7
+4 5K      Michael M.      3</code></pre>
+</div>
+</div>
 </section></section>
 <section>
 <section id="working-with-plots" class="title-slide slide level1 center">
@@ -399,39 +450,39 @@ S. Kelly | Scholar Support and Data Services | Fall 2025
 <h2>Scatterplots</h2>
 <p>The only geom name that’s hard to remember: geom_point()</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="fu">ggplot</span>(<span class="at">data =</span> run17, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> net_sec)) <span class="sc">+</span> </span>
-<span id="cb24-2"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb24-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age of Runner"</span> , <span class="at">y =</span> <span class="st">"Time to Complete Race"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="Session_4_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section>
-<section id="yikes-lets-learn-how-to-slice" class="slide level2">
-<h2>Yikes! Let’s learn how to slice</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">slice</span>(df, <span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">20</span>) <span class="co"># grabs rows 1, 10, 20</span></span>
-<span id="cb25-2"><a href=""></a><span class="fu">slice_head</span>(df, <span class="at">n =</span> <span class="dv">10</span>) <span class="co"># grabs the first 10 rows</span></span>
-<span id="cb25-3"><a href=""></a><span class="fu">slice_sample</span>(df, <span class="at">n =</span> <span class="dv">10</span>) <span class="co"># grabs ten random rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><br></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">slice_sample</span>(run17, <span class="at">n =</span> <span class="dv">1500</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb26-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> net_sec)) <span class="sc">+</span> </span>
-<span id="cb26-3"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb26-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age of Runner"</span> , <span class="at">y =</span> <span class="st">"Time to Complete Race"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href=""></a><span class="fu">ggplot</span>(<span class="at">data =</span> run17, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> net_sec)) <span class="sc">+</span> </span>
+<span id="cb30-2"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb30-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age of Runner"</span> , <span class="at">y =</span> <span class="st">"Time to Complete Race"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="Session_4_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section>
+<section id="yikes-lets-learn-how-to-slice" class="slide level2">
+<h2>Yikes! Let’s learn how to slice</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">slice</span>(df, <span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">20</span>) <span class="co"># grabs rows 1, 10, 20</span></span>
+<span id="cb31-2"><a href=""></a><span class="fu">slice_head</span>(df, <span class="at">n =</span> <span class="dv">10</span>) <span class="co"># grabs the first 10 rows</span></span>
+<span id="cb31-3"><a href=""></a><span class="fu">slice_sample</span>(df, <span class="at">n =</span> <span class="dv">10</span>) <span class="co"># grabs ten random rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href=""></a><span class="fu">slice_sample</span>(run17, <span class="at">n =</span> <span class="dv">1500</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb32-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> net_sec)) <span class="sc">+</span> </span>
+<span id="cb32-3"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb32-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age of Runner"</span> , <span class="at">y =</span> <span class="st">"Time to Complete Race"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Session_4_files/figure-revealjs/unnamed-chunk-15-1.png" width="960" class="r-stretch"></section>
 <section id="appreciating-patterns-in-a-scatterplot" class="slide level2">
 <h2>Appreciating patterns in a scatterplot</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="co"># note the new addition to labs</span></span>
-<span id="cb27-2"><a href=""></a><span class="fu">slice_sample</span>(run17, <span class="at">n =</span> <span class="dv">1500</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb27-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> net_sec, <span class="at">color =</span> event)) <span class="sc">+</span> </span>
-<span id="cb27-4"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb27-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age of Runner"</span> , <span class="at">y =</span> <span class="st">"Time to Complete Race"</span>, <span class="at">color =</span> <span class="st">"Event"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="co"># note the new addition to labs</span></span>
+<span id="cb33-2"><a href=""></a><span class="fu">slice_sample</span>(run17, <span class="at">n =</span> <span class="dv">1500</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb33-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> net_sec, <span class="at">color =</span> event)) <span class="sc">+</span> </span>
+<span id="cb33-4"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb33-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age of Runner"</span> , <span class="at">y =</span> <span class="st">"Time to Complete Race"</span>, <span class="at">color =</span> <span class="st">"Event"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Session_4_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
+<img data-src="Session_4_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"></section>
 <section id="plotting-customization" class="slide level2">
 <h2>Plotting customization</h2>
 <p>Things to Know:</p>
@@ -445,22 +496,22 @@ S. Kelly | Scholar Support and Data Services | Fall 2025
 <h2>Scatterplot with color, shapes, size</h2>
 <p>You can do a lot, but don’t go crazy!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="fu">slice_sample</span>(run17, <span class="at">n =</span> <span class="dv">200</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb28-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> net_sec, <span class="at">color =</span> event)) <span class="sc">+</span></span>
-<span id="cb28-3"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="st">"+"</span>, <span class="at">size =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href=""></a><span class="fu">slice_sample</span>(run17, <span class="at">n =</span> <span class="dv">200</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb34-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> net_sec, <span class="at">color =</span> event)) <span class="sc">+</span></span>
+<span id="cb34-3"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="st">"+"</span>, <span class="at">size =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Session_4_files/figure-revealjs/unnamed-chunk-15-1.png" width="960" class="r-stretch"></section>
+<img data-src="Session_4_files/figure-revealjs/unnamed-chunk-17-1.png" width="960" class="r-stretch"></section>
 <section id="if-you-really-want-to-plot-everything" class="slide level2">
 <h2>If you really want to plot everything</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">ggplot</span>(run17, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> net_sec, <span class="at">color =</span> event)) <span class="sc">+</span> </span>
-<span id="cb29-2"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">shape =</span> <span class="st">"+"</span>) <span class="sc">+</span> </span>
-<span id="cb29-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age of Runner"</span> , <span class="at">y =</span> <span class="st">"Time to Complete Race"</span>, <span class="at">color =</span> <span class="st">"Event"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">ggplot</span>(run17, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> net_sec, <span class="at">color =</span> event)) <span class="sc">+</span> </span>
+<span id="cb35-2"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">shape =</span> <span class="st">"+"</span>) <span class="sc">+</span> </span>
+<span id="cb35-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age of Runner"</span> , <span class="at">y =</span> <span class="st">"Time to Complete Race"</span>, <span class="at">color =</span> <span class="st">"Event"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 
-<img data-src="Session_4_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"></section></section>
+<img data-src="Session_4_files/figure-revealjs/unnamed-chunk-18-1.png" width="960" class="r-stretch"></section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">

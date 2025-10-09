@@ -10,7 +10,11 @@ execute:
   echo: true
 ---
 
-## Open your R project, create a .R file, & load R packages
+## Let's get started
+
+1. Open your R project
+2. Create a new weekly .R file, 
+3. Load R packages that we'll use today
 
 ```{r}
 library(tidyverse)
@@ -95,19 +99,31 @@ run17 |>
   filter(event == "10 Mile" & city %in% c("Kenya", "Poland", "Ethiopia"))
 ```
 
-## What are the top three names of runners? 
+## What are most frequent names of runners? 
 
 ```{r}
 run17 |> 
   count(name, sort = TRUE) |> 
   head()
+```
 
+## Filter the data to Michaels and Jennifers
+
+```{r}
 run17 |> 
-  filter(name %in% c("Michael M.", "Jennifer S."))
+  filter(name %in% c("Michael M.", "Jennifer S.")) |> 
+  head()
+```
 
+## What events do they do? 
+```{r}
 run17 |> 
   filter(name %in% c("Michael M.", "Jennifer S.")) |> 
   count(event)
+
+run17 |> 
+  filter(name %in% c("Michael M.", "Jennifer S.")) |> 
+  count(event, name)
 ```
 
 # Working with Plots
