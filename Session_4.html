@@ -341,8 +341,126 @@ S. Kelly | Scholar Support and Data Services | Fall 2025
 # ℹ 2,949 more rows</code></pre>
 </div>
 </div>
-
+</section>
+<section id="run-this-code.-what-is-it-doing" class="slide level2">
+<h2>Run this code. What is it doing?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href=""></a>  <span class="fu">filter</span>(event <span class="sc">==</span> <span class="st">"10 Mile"</span> <span class="sc">&amp;</span> city <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Kenya"</span>, <span class="st">"Poland"</span>, <span class="st">"Ethiopia"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 17 × 9
+     bib name         sex     age city     net_sec clock_sec pace_sec event  
+   &lt;int&gt; &lt;chr&gt;        &lt;chr&gt; &lt;int&gt; &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;  
+ 1     6 Hiwot G.     F        21 Ethiopia    3217      3217      321 10 Mile
+ 2    22 Buze D.      F        22 Ethiopia    3232      3232      323 10 Mile
+ 3    16 Gladys K.    F        31 Kenya       3276      3276      327 10 Mile
+ 4     4 Mamitu D.    F        33 Ethiopia    3285      3285      328 10 Mile
+ 5    20 Karolina N.  F        35 Poland      3288      3288      328 10 Mile
+ 6     8 Firehiwot D. F        33 Ethiopia    3316      3316      331 10 Mile
+ 7    24 Nancy N.     F        21 Kenya       3357      3357      335 10 Mile
+ 8    55 James K.     M        28 Kenya       2799      2799      279 10 Mile
+ 9    13 Birhan N.    M        22 Ethiopia    2802      2802      280 10 Mile
+10     9 Philemon C.  M        23 Kenya       2803      2803      280 10 Mile
+11    63 Evans K.     M        24 Kenya       2803      2803      280 10 Mile
+12    53 Dominic K.   M        23 Kenya       2805      2805      280 10 Mile
+13     3 Edwin R.     M        28 Kenya       2806      2806      280 10 Mile
+14     7 Philip L.    M        26 Kenya       2818      2818      281 10 Mile
+15    25 Paul S.      M        30 Kenya       2824      2824      282 10 Mile
+16    11 Kevin K.     M        27 Kenya       2865      2865      286 10 Mile
+17    19 Nelson O.    M        24 Kenya       2913      2913      291 10 Mile</code></pre>
+</div>
+</div>
+</section>
+<section id="what-are-the-top-three-names-of-runners" class="slide level2">
+<h2>What are the top three names of runners?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href=""></a>  <span class="fu">count</span>(name, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-3"><a href=""></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  name             n
+  &lt;chr&gt;        &lt;int&gt;
+1 Michael M.      30
+2 Jennifer S.     28
+3 John M.         26
+4 Michael C.      25
+5 Stephanie S.    24
+6 John S.         23</code></pre>
+</div>
+</div>
 </section></section>
+<section>
+<section id="working-with-plots" class="title-slide slide level1 center">
+<h1>Working with Plots</h1>
+
+</section>
+<section id="scatterplots" class="slide level2">
+<h2>Scatterplots</h2>
+<p>The only geom name that’s hard to remember: geom_point()</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="fu">ggplot</span>(<span class="at">data =</span> run17, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> net_sec)) <span class="sc">+</span> </span>
+<span id="cb24-2"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb24-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age of Runner"</span> , <span class="at">y =</span> <span class="st">"Time to Complete Race"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Session_4_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section>
+<section id="yikes-lets-learn-how-to-slice" class="slide level2">
+<h2>Yikes! Let’s learn how to slice</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href=""></a><span class="fu">slice</span>(df, <span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">20</span>) <span class="co"># grabs rows 1, 10, 20</span></span>
+<span id="cb25-2"><a href=""></a><span class="fu">slice_head</span>(df, <span class="at">n =</span> <span class="dv">10</span>) <span class="co"># grabs the first 10 rows</span></span>
+<span id="cb25-3"><a href=""></a><span class="fu">slice_sample</span>(df, <span class="at">n =</span> <span class="dv">10</span>) <span class="co"># grabs ten random rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="fu">slice_sample</span>(run17, <span class="at">n =</span> <span class="dv">1500</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> net_sec)) <span class="sc">+</span> </span>
+<span id="cb26-3"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb26-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age of Runner"</span> , <span class="at">y =</span> <span class="st">"Time to Complete Race"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Session_4_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section>
+<section id="appreciating-patterns-in-a-scatterplot" class="slide level2">
+<h2>Appreciating patterns in a scatterplot</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="co"># note the new addition to labs</span></span>
+<span id="cb27-2"><a href=""></a><span class="fu">slice_sample</span>(run17, <span class="at">n =</span> <span class="dv">1500</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb27-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> net_sec, <span class="at">color =</span> event)) <span class="sc">+</span> </span>
+<span id="cb27-4"><a href=""></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb27-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age of Runner"</span> , <span class="at">y =</span> <span class="st">"Time to Complete Race"</span>, <span class="at">color =</span> <span class="st">"Event"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Session_4_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
+<section id="plotting-customization" class="slide level2">
+<h2>Plotting customization</h2>
+<p>Things to Know:</p>
+<ul>
+<li><p>alpha - determines the transparency of color; range 0 - 1 (1 = opaque); often used in density plots and in scatterplots</p></li>
+<li><p>shape - used most often in scatterplots; range 1-20 represents different shapes; can also use “.” “*” “+”</p></li>
+<li><p>size - used most often in scatterplots; default is 1.5; range generally 0.5 to 5</p></li>
+</ul>
+</section>
+<section id="scatterplot-with-color-shapes-size" class="slide level2">
+<h2>Scatterplot with color, shapes, size</h2>
+<p>You can do a lot, but don’t go crazy!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href=""></a><span class="fu">slice_sample</span>(run17, <span class="at">n =</span> <span class="dv">200</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb28-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> net_sec, <span class="at">color =</span> event)) <span class="sc">+</span></span>
+<span id="cb28-3"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="st">"+"</span>, <span class="at">size =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Session_4_files/figure-revealjs/unnamed-chunk-15-1.png" width="960" class="r-stretch"></section>
+<section id="if-you-really-want-to-plot-everything" class="slide level2">
+<h2>If you really want to plot everything</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">ggplot</span>(run17, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> net_sec, <span class="at">color =</span> event)) <span class="sc">+</span> </span>
+<span id="cb29-2"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">shape =</span> <span class="st">"+"</span>) <span class="sc">+</span> </span>
+<span id="cb29-3"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age of Runner"</span> , <span class="at">y =</span> <span class="st">"Time to Complete Race"</span>, <span class="at">color =</span> <span class="st">"Event"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+
+<img data-src="Session_4_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"></section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">

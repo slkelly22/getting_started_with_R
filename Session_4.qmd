@@ -87,3 +87,94 @@ run17 |>
 run17 |> 
   filter(event == "10 Mile" & age >= 40 & sex == "M")
 ```
+
+## Run this code. What is it doing?
+
+```{r}
+run17 |> 
+  filter(event == "10 Mile" & city %in% c("Kenya", "Poland", "Ethiopia"))
+```
+
+## What are the top three names of runners? 
+
+```{r}
+run17 |> 
+  count(name, sort = TRUE) |> 
+  head()
+
+run17 |> 
+  filter(name %in% c("Michael M.", "Jennifer S."))
+
+run17 |> 
+  filter(name %in% c("Michael M.", "Jennifer S.")) |> 
+  count(event)
+```
+
+# Working with Plots
+
+## Scatterplots
+
+The only geom name that's hard to remember: geom_point()
+
+```{r}
+ggplot(data = run17, aes(x = age, y = net_sec)) + 
+  geom_point() + 
+  labs(x = "Age of Runner" , y = "Time to Complete Race")
+```
+
+## Yikes! Let's learn how to slice
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+slice(df, 1, 10, 20) # grabs rows 1, 10, 20
+slice_head(df, n = 10) # grabs the first 10 rows
+slice_sample(df, n = 10) # grabs ten random rows
+```
+
+<br>
+
+```{r}
+slice_sample(run17, n = 1500) |> 
+  ggplot(aes(x = age, y = net_sec)) + 
+  geom_point() + 
+  labs(x = "Age of Runner" , y = "Time to Complete Race")
+```
+
+## Appreciating patterns in a scatterplot
+
+```{r}
+# note the new addition to labs
+slice_sample(run17, n = 1500) |> 
+  ggplot(aes(x = age, y = net_sec, color = event)) + 
+  geom_point() + 
+  labs(x = "Age of Runner" , y = "Time to Complete Race", color = "Event")
+```
+
+## Plotting customization
+
+Things to Know:
+
+-   alpha - determines the transparency of color; range 0 - 1 (1 = opaque); often used in density plots and in scatterplots
+
+-   shape - used most often in scatterplots; range 1-20 represents different shapes; can also use "." "\*" "+"
+
+-   size - used most often in scatterplots; default is 1.5; range generally 0.5 to 5
+
+## Scatterplot with color, shapes, size
+
+You can do a lot, but don't go crazy!
+
+```{r}
+slice_sample(run17, n = 200) |> 
+  ggplot(aes(x = age, y = net_sec, color = event)) +
+  geom_point(shape = "+", size = 5)
+```
+
+## If you really want to plot everything
+
+```{r}
+ggplot(run17, aes(x = age, y = net_sec, color = event)) + 
+  geom_point(alpha = 0.8, shape = "+") + 
+  labs(x = "Age of Runner" , y = "Time to Complete Race", color = "Event")
+```
