@@ -12,9 +12,9 @@ execute:
 
 ## Let's get started
 
-1. Open your R project
-2. Create a new weekly .R file, 
-3. Load R packages that we'll use today
+-   Open your R project
+-   Create a new .R file
+-   Load the two R packages we'll use today
 
 ```{r}
 library(tidyverse)
@@ -76,20 +76,22 @@ run17 |>
 
 ## Activity
 
-Filter the run17 dataset to only men over 40 who ran the 10 mile race
+Filter the run17 dataset to men over 40 who ran the 10 mile race
 
 ```{r}
 #| echo: TRUE
 #| eval: FALSE
 run17 |> 
-  filter(? == ? & ? >= ? & ? == ?)
+  filter(? == ? & ? >= ? & ? == ?) |> 
+  head(10)
 ```
 
 ## Activity Check
 
 ```{r}
 run17 |> 
-  filter(event == "10 Mile" & age >= 40 & sex == "M")
+  filter(event == "10 Mile" & age >= 40 & sex == "M") |> 
+  head(10)
 ```
 
 ## Run this code. What is it doing?
@@ -99,34 +101,41 @@ run17 |>
   filter(event == "10 Mile" & city %in% c("Kenya", "Poland", "Ethiopia"))
 ```
 
-## What are most frequent names of runners? 
+## What are most frequent names of runners?
 
 ```{r}
 run17 |> 
-  count(name, sort = TRUE) |> 
-  head()
+  count(name, sort = TRUE)
 ```
 
-## Filter the data to Michaels and Jennifers
+## Let's filter the data to Jennifer...
+
+But we have a problem. There are Jennifers with different last names. We want to capture all the Jennifers. <br><br> New function `str_detect()` from the stringr tidyverse package. <br><br> `str_detect()` detects the pattern match in a string.
+
+## Filtering using str_detect
 
 ```{r}
 run17 |> 
-  filter(name %in% c("Michael M.", "Jennifer S.")) |> 
-  head()
+  filter(str_detect(name, "Jennifer")) |> 
+  head(10)
 ```
 
-## What events do they do? 
+## What events did the Jennifers do?
+
 ```{r}
 run17 |> 
-  filter(name %in% c("Michael M.", "Jennifer S.")) |> 
+  filter(str_detect(name, "Jennifer")) |> 
   count(event)
-
-run17 |> 
-  filter(name %in% c("Michael M.", "Jennifer S.")) |> 
-  count(event, name)
 ```
 
-# Working with Plots
+## Can we filter to all the Jennifers and all the Michaels?
+
+```{r}
+run17 |> 
+  filter(str_detect(name, "Jennifer") | str_detect(name, "Michael"))
+```
+
+# Scatterplots
 
 ## Scatterplots
 
@@ -151,7 +160,8 @@ slice_sample(df, n = 10) # grabs ten random rows
 <br>
 
 ```{r}
-slice_sample(run17, n = 1500) |> 
+run17 |> 
+  slice_sample(n = 500) |> 
   ggplot(aes(x = age, y = net_sec)) + 
   geom_point() + 
   labs(x = "Age of Runner" , y = "Time to Complete Race")
@@ -160,37 +170,60 @@ slice_sample(run17, n = 1500) |>
 ## Appreciating patterns in a scatterplot
 
 ```{r}
-# note the new addition to labs
-slice_sample(run17, n = 1500) |> 
+run17 |> 
+  slice_sample(n = 500) |> 
   ggplot(aes(x = age, y = net_sec, color = event)) + 
   geom_point() + 
   labs(x = "Age of Runner" , y = "Time to Complete Race", color = "Event")
+# note the color label within labs function
 ```
 
 ## Plotting customization
 
 Things to Know:
 
--   alpha - determines the transparency of color; range 0 - 1 (1 = opaque); often used in density plots and in scatterplots
+-   alpha - determines the transparency of color; range 0 - 1 (1 = opaque); often used in scatter and density plots
 
--   shape - used most often in scatterplots; range 1-20 represents different shapes; can also use "." "\*" "+"
+-   shape - frequently used in scatterplots; range 1-20 represents different shapes; can also use "." "\*" "+"
 
--   size - used most often in scatterplots; default is 1.5; range generally 0.5 to 5
+-   size - frequently used in scatterplots; default is 1.5; range generally 0.5 to 5
 
 ## Scatterplot with color, shapes, size
 
-You can do a lot, but don't go crazy!
+Let's try out adding a shape and size
 
 ```{r}
-slice_sample(run17, n = 200) |> 
+run17 |> 
+  slice_sample(n = 200) |> 
   ggplot(aes(x = age, y = net_sec, color = event)) +
   geom_point(shape = "+", size = 5)
 ```
 
-## If you really want to plot everything
+## Activity: Create a filtered scatterplot
+
+Use the template below to create a scatterplot of your choice:
 
 ```{r}
-ggplot(run17, aes(x = age, y = net_sec, color = event)) + 
-  geom_point(alpha = 0.8, shape = "+") + 
-  labs(x = "Age of Runner" , y = "Time to Complete Race", color = "Event")
+#| echo: TRUE
+#| eval: FALSE
+run17 |> 
+  filter(? == ?) |> 
+  ggplot(aes(x = ? , y = ?, color = ? )) + geom_point() +
+  labs(x = ?, y = ?, color = ?)
 ```
+
+## Activity Example
+
+```{r}
+run17 |> 
+  filter(str_detect(name, "Jennifer") | str_detect(name, "Michael")) |> 
+  filter(event == "5K") |> 
+  ggplot(aes(x = age, y = net_sec/60, color = sex)) + geom_point(size = 4) + 
+  labs(title = "Cherry Blossom 5K Race", x = "Age", y = "Minutes", caption = "2017 Data")
+```
+
+## Next Week
+
+Our Final Week! 
+
+![](images/tidyverse.png){width="350"}   ![](images/ggplot2.png){width="350"}
