@@ -1,0 +1,129 @@
+---
+title: "Getting Started with R: Session 5"
+author: "S. Kelly | Scholar Support and Data Services | Fall 2025"
+format: 
+  revealjs: 
+    code-overflow: wrap
+    footer: "S.Kelly | Getting Started with R | Fall 2025"
+editor: visual
+execute: 
+  echo: true
+---
+
+## Let's get started
+
+-   Open your R project
+-   Create a new .R file
+-   Load the two R packages we'll use today
+
+```{r}
+library(tidyverse)
+library(cherryblossom)
+
+# run search to confirm loaded packages
+search()
+```
+
+## Basic Boxplot
+
+Let's create a basic boxplot with the run17 data from the cherryblossom package. Then we'll add more features. 
+
+```{r}
+run17 |> 
+  slice_sample(n = 400) |> 
+  ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "lightblue")
+```
+
+## Let's add a second geom
+
+```{r}
+run17 |> 
+  slice_sample(n = 400) |> 
+  ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "lightblue") + 
+  geom_jitter()
+```
+
+## Let's add color by sex
+
+```{r}
+run17 |> 
+  slice_sample(n = 400) |> 
+  ggplot(aes(x = event, y = pace_sec)) +
+  geom_boxplot(fill = "transparent") + 
+  geom_jitter(aes(color = sex), size = 2) 
+```
+
+## Now labels and a theme
+
+```{r}
+run17 |> 
+  slice_sample(n = 400) |> 
+  ggplot(aes(x = event, y = pace_sec)) +
+  geom_boxplot(fill = "transparent") + 
+  geom_jitter(aes(color = sex), size = 2) +
+  labs(x = "Event", y = "Pace (seconds)", 
+       title = "Cherry Blossom Race", color = "Sex")
+```
+
+## Finally, a quick theme
+
+```{r}
+run17 |> 
+  slice_sample(n = 400) |> 
+  ggplot(aes(x = event, y = pace_sec)) +
+  geom_boxplot(fill = "transparent") + 
+  geom_jitter(aes(color = sex), size = 2) +
+  labs(x = "Event", y = "Pace (seconds)", 
+       title = "Cherry Blossom Race", color = "Sex") + 
+  theme_classic()
+```
+
+## Let's Save our Plot
+
+```{r}
+ggsave("cherryblossomplot.jpeg")
+```
+
+## Switch to a different dataset
+
+```{r}
+# install.packages("usdata")
+library(usdata)
+```
+
+## Getting to Know the County Data
+
+```{r}
+dim(county)
+summary(county)
+```
+
+## Getting to Know the County Data
+```{r}
+head(county)
+```
+
+# Basic Boxplot
+
+```{r}
+county %>%
+  ggplot(mapping = aes(x = state, y = median_hh_income)) + geom_boxplot()
+```
+
+# Flipping the coordinates
+```{r}
+county %>%
+  ggplot(mapping = aes(x = state, y = median_hh_income)) + geom_boxplot() + coord_flip() + labs(x = NULL, y = "Household Income")
+```
+
+# reordering state by household income
+```{r}
+county %>%
+  ggplot(mapping = aes(x = reorder(state, median_hh_income), y = median_hh_income)) + geom_boxplot() + coord_flip() + labs(x = NULL, y = "Household Income")
+```
+
+## Add Interactivity Slides!!
+
+## Add Something Interesting
+
+## Add Time at End for Evaluation Forms
