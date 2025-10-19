@@ -227,85 +227,126 @@ S. Kelly | Scholar Support and Data Services | Fall 2025
 </div>
 </div>
 </section>
+<section id="new-function-group_by" class="slide level2">
+<h2>New Function: group_by</h2>
+<p><code>group_by()</code> is how you group your data by a categorical variable. Often followed with the <code>summarize()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href=""></a>  <span class="fu">group_by</span>(event) <span class="sc">|&gt;</span> </span>
+<span id="cb3-3"><a href=""></a>  <span class="fu">summarize</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+<img data-src="images/grouped_tibble.png" class="r-stretch"></section>
+<section id="new-function-summarize" class="slide level2">
+<h2>New Function: summarize</h2>
+<p>Be careful! The <code>summarize()</code> function is not the same as the <code>summary()</code> function from Base R. <code>summarize()</code> is similar to the <code>mutate()</code> function. Both create a new variable, but whereas <code>mutate()</code> creates a variable for every row, <code>summarize()</code> only creates a variable for groups specified in the <code>group_by()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href=""></a>  <span class="fu">group_by</span>(event) <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href=""></a>  <span class="fu">summarize</span>(<span class="at">event_means =</span> <span class="fu">mean</span>(pace_sec, <span class="at">na.rm =</span> T))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  event   event_means
+  &lt;chr&gt;         &lt;dbl&gt;
+1 10 Mile        586.
+2 5K             763.</code></pre>
+</div>
+</div>
+</section>
+<section id="activity" class="slide level2">
+<h2>Activity</h2>
+<p>What is the X X (using group_by and summary)</p>
+</section>
 <section id="basic-boxplot" class="slide level2">
 <h2>Basic Boxplot</h2>
 <p>Let’s create a basic boxplot with the run17 data from the cherryblossom package. Then we’ll add more features.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb3-2"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb3-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="Session_5_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section>
-<section id="lets-add-a-second-geom" class="slide level2">
-<h2>Let’s add a second geom</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb4-2"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb4-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span> </span>
-<span id="cb4-4"><a href=""></a>  <span class="fu">geom_jitter</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="Session_5_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
-<section id="lets-add-color-by-sex" class="slide level2">
-<h2>Let’s add color by sex</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb5-2"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb5-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span></span>
-<span id="cb5-4"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"transparent"</span>) <span class="sc">+</span> </span>
-<span id="cb5-5"><a href=""></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">color =</span> sex), <span class="at">size =</span> <span class="dv">2</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="Session_5_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"></section>
-<section id="now-labels-and-a-theme" class="slide level2">
-<h2>Now labels and a theme</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb6-2"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb6-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span></span>
-<span id="cb6-4"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"transparent"</span>) <span class="sc">+</span> </span>
-<span id="cb6-5"><a href=""></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">color =</span> sex), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb6-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Event"</span>, <span class="at">y =</span> <span class="st">"Pace (seconds)"</span>, </span>
-<span id="cb6-7"><a href=""></a>       <span class="at">title =</span> <span class="st">"Cherry Blossom Race"</span>, <span class="at">color =</span> <span class="st">"Sex"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="Session_5_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
-<section id="finally-a-quick-theme" class="slide level2">
-<h2>Finally, a quick theme</h2>
+<section id="lets-add-the-overall-event-means-to-the-plot" class="slide level2">
+<h2>Let’s add the overall event means to the plot</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
 <span id="cb7-2"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb7-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span></span>
-<span id="cb7-4"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"transparent"</span>) <span class="sc">+</span> </span>
-<span id="cb7-5"><a href=""></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">color =</span> sex), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb7-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Event"</span>, <span class="at">y =</span> <span class="st">"Pace (seconds)"</span>, </span>
-<span id="cb7-7"><a href=""></a>       <span class="at">title =</span> <span class="st">"Cherry Blossom Race"</span>, <span class="at">color =</span> <span class="st">"Sex"</span>) <span class="sc">+</span> </span>
-<span id="cb7-8"><a href=""></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span></span>
+<span id="cb7-4"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">586</span>, <span class="at">color =</span> <span class="st">"maroon"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb7-5"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">763</span>, <span class="at">color =</span> <span class="st">"turquoise"</span>, <span class="at">size =</span> <span class="dv">2</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Session_5_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
+<section id="lets-add-another-geom" class="slide level2">
+<h2>Let’s add another geom</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span> </span>
+<span id="cb8-4"><a href=""></a>  <span class="fu">geom_jitter</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="Session_5_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
+<section id="lets-add-color-by-sex" class="slide level2">
+<h2>Let’s add color by sex</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span></span>
+<span id="cb9-4"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"transparent"</span>) <span class="sc">+</span> </span>
+<span id="cb9-5"><a href=""></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">color =</span> sex), <span class="at">size =</span> <span class="dv">2</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Session_5_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
+<section id="now-labels-and-a-theme" class="slide level2">
+<h2>Now labels and a theme</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb10-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span></span>
+<span id="cb10-4"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"transparent"</span>) <span class="sc">+</span> </span>
+<span id="cb10-5"><a href=""></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">color =</span> sex), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb10-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Event"</span>, <span class="at">y =</span> <span class="st">"Pace (seconds)"</span>, </span>
+<span id="cb10-7"><a href=""></a>       <span class="at">title =</span> <span class="st">"Cherry Blossom Race"</span>, <span class="at">color =</span> <span class="st">"Sex"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Session_5_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
+<section id="finally-a-quick-theme" class="slide level2">
+<h2>Finally, a quick theme</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb11-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span></span>
+<span id="cb11-4"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"transparent"</span>) <span class="sc">+</span> </span>
+<span id="cb11-5"><a href=""></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">color =</span> sex), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb11-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Event"</span>, <span class="at">y =</span> <span class="st">"Pace (seconds)"</span>, </span>
+<span id="cb11-7"><a href=""></a>       <span class="at">title =</span> <span class="st">"Cherry Blossom Race"</span>, <span class="at">color =</span> <span class="st">"Sex"</span>) <span class="sc">+</span> </span>
+<span id="cb11-8"><a href=""></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="Session_5_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch"></section>
 <section id="lets-save-our-plot" class="slide level2">
 <h2>Let’s Save our Plot</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">ggsave</span>(<span class="st">"cherryblossomplot.jpeg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">ggsave</span>(<span class="st">"cherryblossomplot.jpeg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="switch-to-a-different-dataset" class="slide level2">
 <h2>Switch to a different dataset</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="co"># install.packages("usdata")</span></span>
-<span id="cb9-2"><a href=""></a><span class="fu">library</span>(usdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="co"># install.packages("usdata")</span></span>
+<span id="cb13-2"><a href=""></a><span class="fu">library</span>(usdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="getting-to-know-the-county-data" class="slide level2">
 <h2>Getting to Know the County Data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">dim</span>(county)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">dim</span>(county)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3142   15</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">summary</span>(county)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">summary</span>(county)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     name                state         pop2000           pop2010       
  Length:3142        Texas   : 254   Min.   :     67   Min.   :     82  
@@ -345,7 +386,7 @@ S. Kelly | Scholar Support and Data Services | Fall 2025
 <section id="getting-to-know-the-county-data-1" class="slide level2">
 <h2>Getting to Know the County Data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">head</span>(county)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">head</span>(county)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 15
   name           state  pop2000 pop2010 pop2017 pop_change poverty homeownership
@@ -365,38 +406,37 @@ S. Kelly | Scholar Support and Data Services | Fall 2025
 <section id="basic-boxplot-1" class="title-slide slide level1 center">
 <h1>Basic Boxplot</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>county <span class="sc">%&gt;%</span></span>
-<span id="cb16-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> state, <span class="at">y =</span> median_hh_income)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>county <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> state, <span class="at">y =</span> median_hh_income)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Session_5_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section>
+<img data-src="Session_5_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
 
+<section>
 <section id="flipping-the-coordinates" class="title-slide slide level1 center">
 <h1>Flipping the coordinates</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>county <span class="sc">%&gt;%</span></span>
-<span id="cb17-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> state, <span class="at">y =</span> median_hh_income)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Household Income"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href=""></a>county <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> state, <span class="at">y =</span> median_hh_income)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Household Income"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Session_5_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch"></section>
-
-<section>
-<section id="reordering-state-by-household-income" class="title-slide slide level1 center">
-<h1>reordering state by household income</h1>
+<img data-src="Session_5_files/figure-revealjs/unnamed-chunk-15-1.png" width="960" class="r-stretch"></section>
+<section id="lets-reorder-the-plot-by-household-income" class="slide level2">
+<h2>Let’s reorder the plot by household income</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>county <span class="sc">%&gt;%</span></span>
-<span id="cb18-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(state, median_hh_income), <span class="at">y =</span> median_hh_income)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Household Income"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a>county <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href=""></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(state, median_hh_income), <span class="at">y =</span> median_hh_income)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Household Income"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
-<img data-src="Session_5_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section>
+<img data-src="Session_5_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"></section>
 <section id="add-interactivity-slides" class="slide level2">
 <h2>Add Interactivity Slides!!</h2>
 </section>
-<section id="add-something-interesting" class="slide level2">
-<h2>Add Something Interesting</h2>
+<section id="add-carpentries-r-stats-workshop-mal-sk-contact" class="slide level2">
+<h2>Add Carpentries, R Stats Workshop, MAL, SK contact</h2>
 </section>
-<section id="add-time-at-end-for-evaluation-forms" class="slide level2">
-<h2>Add Time at End for Evaluation Forms</h2>
+<section id="add-time-for-evaluation-forms" class="slide level2">
+<h2>Add Time for Evaluation Forms</h2>
 
 </section></section>
     </div>

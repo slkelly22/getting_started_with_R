@@ -24,9 +24,37 @@ library(cherryblossom)
 search()
 ```
 
+## New Function: group_by
+
+`group_by()` is how you group your data by a categorical variable. Often followed with the `summarize()` function. 
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+run17 |> 
+  group_by(event) |> 
+  summarize()
+```
+
+![](images/grouped_tibble.png)
+
+## New Function: summarize
+
+Be careful! The `summarize()` function is not the same as the `summary()` function from Base R. `summarize()` is similar to the `mutate()` function. Both create a new variable, but whereas `mutate()` creates a variable for every row, `summarize()` only creates a variable for groups specified in the `group_by()` function. 
+
+```{r}
+run17 |> 
+  group_by(event) |> 
+  summarize(event_means = mean(pace_sec, na.rm = T))
+```
+
+## Activity
+
+What is the X X (using group_by and summary)
+
 ## Basic Boxplot
 
-Let's create a basic boxplot with the run17 data from the cherryblossom package. Then we'll add more features. 
+Let's create a basic boxplot with the run17 data from the cherryblossom package. Then we'll add more features.
 
 ```{r}
 run17 |> 
@@ -34,7 +62,17 @@ run17 |>
   ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "lightblue")
 ```
 
-## Let's add a second geom
+## Let's add the overall event means to the plot
+
+```{r}
+run17 |> 
+  slice_sample(n = 400) |> 
+  ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "lightblue") +
+  geom_hline(yintercept = 586, color = "maroon", size = 2) + 
+  geom_hline(yintercept = 763, color = "turquoise", size = 2) 
+```
+
+## Let's add another geom
 
 ```{r}
 run17 |> 
@@ -99,6 +137,7 @@ summary(county)
 ```
 
 ## Getting to Know the County Data
+
 ```{r}
 head(county)
 ```
@@ -111,12 +150,14 @@ county %>%
 ```
 
 # Flipping the coordinates
+
 ```{r}
 county %>%
   ggplot(mapping = aes(x = state, y = median_hh_income)) + geom_boxplot() + coord_flip() + labs(x = NULL, y = "Household Income")
 ```
 
-# reordering state by household income
+## Let's reorder the plot by household income
+
 ```{r}
 county %>%
   ggplot(mapping = aes(x = reorder(state, median_hh_income), y = median_hh_income)) + geom_boxplot() + coord_flip() + labs(x = NULL, y = "Household Income")
@@ -124,6 +165,6 @@ county %>%
 
 ## Add Interactivity Slides!!
 
-## Add Something Interesting
+## Add Carpentries, R Stats Workshop, MAL, SK contact
 
-## Add Time at End for Evaluation Forms
+## Add Time for Evaluation Forms
