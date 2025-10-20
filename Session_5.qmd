@@ -12,9 +12,9 @@ execute:
 
 ## Let's get started
 
--   Open your R project
--   Create a new .R file
--   Load the two R packages we'll use today
+>Open your R project.
+Create a new .R file.
+Load the two R packages we'll use today
 
 ```{r}
 library(tidyverse)
@@ -24,9 +24,17 @@ library(cherryblossom)
 search()
 ```
 
+## Cherry Blossom Race
+
+Let's continue to explore the run17 dataset inside the cherryblossom package. 
+
+```{r}
+head(run17)
+```
+
 ## New Function: group_by
 
-`group_by()` is how you group your data by a categorical variable. Often followed with the `summarize()` function. 
+`group_by()` is how you group your data by a categorical variable. Often followed with the `summarize()` function.
 
 ```{r}
 #| echo: TRUE
@@ -40,7 +48,7 @@ run17 |>
 
 ## New Function: summarize
 
-Be careful! The `summarize()` function is not the same as the `summary()` function from Base R. `summarize()` is similar to the `mutate()` function. Both create a new variable, but whereas `mutate()` creates a variable for every row, `summarize()` only creates a variable for groups specified in the `group_by()` function. 
+Be careful! The `summarize()` function is not the same as the `summary()` function from Base R. `summarize()` is similar to the `mutate()` function. Both create a new variable, but whereas `mutate()` creates a variable for every row, `summarize()` creates a variable only for the groups specified in the `group_by()` function.
 
 ```{r}
 run17 |> 
@@ -50,11 +58,29 @@ run17 |>
 
 ## Activity
 
-What is the X X (using group_by and summary)
+What is the minimum value for pace for males and females in the 10 Mile event? 
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+run17 |> 
+  filter(? == ?) |> 
+  group_by(?) |> 
+  summarize(? = ? (?))
+```
+
+## Activity Check
+
+```{r}
+run17 |> 
+  filter(event == "10 Mile") |> 
+  group_by(sex) |> 
+  summarize(grouped_min_value = min(pace_sec))
+```
 
 ## Basic Boxplot
 
-Let's create a basic boxplot with the run17 data from the cherryblossom package. Then we'll add more features.
+Let's create a basic boxplot with our running dataset. Then we'll add more features.
 
 ```{r}
 run17 |> 
@@ -62,7 +88,18 @@ run17 |>
   ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "lightblue")
 ```
 
-## Let's add the overall event means to the plot
+## What are our grouped means?
+
+Let's figure out the overall pace for each event.
+
+```{r}
+run17 |> 
+  group_by(event) |> 
+  summarize(group_mean_pace = mean(pace_sec, na.rm = T))
+```
+
+
+## Let's add means to the plot
 
 ```{r}
 run17 |> 
@@ -72,7 +109,7 @@ run17 |>
   geom_hline(yintercept = 763, color = "turquoise", size = 2) 
 ```
 
-## Let's add another geom
+## Let's add the data points
 
 ```{r}
 run17 |> 
@@ -91,7 +128,7 @@ run17 |>
   geom_jitter(aes(color = sex), size = 2) 
 ```
 
-## Now labels and a theme
+## Now labels and a title
 
 ```{r}
 run17 |> 
@@ -136,35 +173,56 @@ dim(county)
 summary(county)
 ```
 
-## Getting to Know the County Data
-
-```{r}
-head(county)
-```
-
-# Basic Boxplot
+## Basic Boxplot
 
 ```{r}
 county %>%
   ggplot(mapping = aes(x = state, y = median_hh_income)) + geom_boxplot()
 ```
 
-# Flipping the coordinates
+## You can flip the coordinates
 
 ```{r}
 county %>%
-  ggplot(mapping = aes(x = state, y = median_hh_income)) + geom_boxplot() + coord_flip() + labs(x = NULL, y = "Household Income")
+  ggplot(mapping = aes(x = state, y = median_hh_income)) + geom_boxplot() + 
+  coord_flip() + labs(x = NULL, y = "Household Income")
 ```
 
-## Let's reorder the plot by household income
+## Let's reorder the plot
 
 ```{r}
 county %>%
-  ggplot(mapping = aes(x = reorder(state, median_hh_income), y = median_hh_income)) + geom_boxplot() + coord_flip() + labs(x = NULL, y = "Household Income")
+  ggplot(mapping = aes(x = reorder(state, median_hh_income), 
+                       y = median_hh_income)) + geom_boxplot() + 
+  coord_flip() + labs(x = NULL, y = "Household Income")
 ```
 
-## Add Interactivity Slides!!
+## But I want to learn more!
 
-## Add Carpentries, R Stats Workshop, MAL, SK contact
+R for Data Science \| Hadley Wickham \| Creator of Tidyverse
 
-## Add Time for Evaluation Forms
+![](images/R4DS2.png)\
+
+## But I want to learn more!
+
+-   Stats Modeling in R (4-part series); Begins Next Thursday, Oct. 30, 1:00 - 2:00
+
+> Linear Regression \| Logistic Regression \| Chi-Square \| *t*-test \| ANOVA
+
+![](images/QR_StatsModelingR.png){fig-align="center" width="200"}
+
+-   Carpentries GIS R Workshop, November 11 & 12, Details Forthcoming
+
+## But I want to learn more!
+
+![](images/MAL.png)
+
+You can make an appointment through the Methods and Analysis Lab (MAL).
+
+> Find us online: https://libraries.olemiss.edu/services/methods-and-analysis-lab/
+
+## Thank your for attending!
+
+We appreciate your feedback. Please take a minute to provide input for the "Getting Started with R" five-week series. 
+
+![](images/Feedback_QRcode.png){fig-align="center"}
