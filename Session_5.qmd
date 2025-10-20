@@ -176,23 +176,23 @@ summary(county)
 ## Basic Boxplot
 
 ```{r}
-county %>%
-  ggplot(mapping = aes(x = state, y = median_hh_income)) + geom_boxplot()
+county |> 
+  ggplot(aes(x = state, y = median_hh_income)) + geom_boxplot()
 ```
 
 ## You can flip the coordinates
 
 ```{r}
-county %>%
-  ggplot(mapping = aes(x = state, y = median_hh_income)) + geom_boxplot() + 
+county |> 
+  ggplot(aes(x = state, y = median_hh_income)) + geom_boxplot() + 
   coord_flip() + labs(x = NULL, y = "Household Income")
 ```
 
 ## Let's reorder the plot
 
 ```{r}
-county %>%
-  ggplot(mapping = aes(x = reorder(state, median_hh_income), 
+county  |> 
+  ggplot(aes(x = reorder(state, median_hh_income), 
                        y = median_hh_income)) + geom_boxplot() + 
   coord_flip() + labs(x = NULL, y = "Household Income")
 ```
