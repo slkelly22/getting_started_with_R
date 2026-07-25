@@ -1,0 +1,229 @@
+---
+title: "Getting Started with R: Session 4"
+author: "S. Kelly | Scholar Support and Data Services | Fall 2026"
+format: 
+  revealjs: 
+    code-overflow: wrap
+    footer: "S.Kelly | Getting Started with R | Fall 2026"
+editor: visual
+execute: 
+  echo: true
+---
+
+## Let's get started
+
+- Open your R project
+- Create a new .R file
+- Load the two R packages we'll use today
+
+```{r}
+library(tidyverse)
+library(cherryblossom)
+
+# run search to confirm loaded packages
+search()
+```
+
+# Working with Rows
+
+## Logical Comparisons & Boolean Operators in R
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+== # is equal to
+!= # is not equal to
+>= # greater than or equal to
+<= # less than or equal to
+is.na # is missing
+!is.na # is not missing
+```
+
+<br>
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+& # AND
+| # OR
+! # NOT
+```
+
+## Review these comparisons
+
+```{r}
+"red" == "blue"
+"red" == "red"
+-11 > 10
+7 == 5|7
+```
+
+## filter
+
+```{r}
+run17 |> 
+  filter(event == "5K") |> 
+  head(10)
+```
+
+## Let's filter even more...
+
+```{r}
+run17 |> 
+  filter(event == "5K" & sex == "M") |> 
+  head(10)
+```
+
+## Activity
+
+Filter the run17 dataset to men over 40 who ran the 10 mile race
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+run17 |> 
+  filter(? == ? & ? >= ? & ? == ?) |> 
+  head(10)
+```
+
+## Activity Check
+
+```{r}
+run17 |> 
+  filter(event == "10 Mile" & age >= 40 & sex == "M") |> 
+  head(10)
+```
+
+## Run this code. What is it doing?
+
+```{r}
+run17 |> 
+  filter(event == "10 Mile" & city %in% c("Kenya", "Poland", "Ethiopia"))
+```
+
+## What are most frequent names of runners?
+
+```{r}
+run17 |> 
+  count(name, sort = TRUE)
+```
+
+## Let's filter the data to Jennifer...
+
+But we have a problem. There are Jennifers with different last names. We want to capture all the Jennifers. <br><br> New function `str_detect()` from the stringr tidyverse package. <br><br> `str_detect()` detects the pattern match in a string.
+
+## Filtering using str_detect
+
+```{r}
+run17 |> 
+  filter(str_detect(name, "Jennifer")) |> 
+  head(10)
+```
+
+## What events did the Jennifers do?
+
+```{r}
+run17 |> 
+  filter(str_detect(name, "Jennifer")) |> 
+  count(event)
+```
+
+## Can we filter to all the Jennifers and all the Michaels?
+
+```{r}
+run17 |> 
+  filter(str_detect(name, "Jennifer") | str_detect(name, "Michael"))
+```
+
+# Scatterplots
+
+## Scatterplots
+
+The only geom name that's hard to remember: geom_point()
+
+```{r}
+ggplot(data = run17, aes(x = age, y = net_sec)) + 
+  geom_point() + 
+  labs(x = "Age of Runner" , y = "Time to Complete Race")
+```
+
+## Yikes! Let's learn how to slice
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+slice(df, 1, 10, 20) # grabs rows 1, 10, 20
+slice_head(df, n = 10) # grabs the first 10 rows
+slice_sample(df, n = 10) # grabs ten random rows
+```
+
+<br>
+
+```{r}
+run17 |> 
+  slice_sample(n = 500) |> 
+  ggplot(aes(x = age, y = net_sec)) + 
+  geom_point() + 
+  labs(x = "Age of Runner" , y = "Time to Complete Race")
+```
+
+## Appreciating patterns in a scatterplot
+
+```{r}
+run17 |> 
+  slice_sample(n = 500) |> 
+  ggplot(aes(x = age, y = net_sec, color = event)) + 
+  geom_point() + 
+  labs(x = "Age of Runner" , y = "Time to Complete Race", color = "Event")
+# note the color label within labs function
+```
+
+## Plotting customization
+
+Things to Know:
+
+- alpha - determines the transparency of color; range 0 - 1 (1 = opaque); often used in scatter and density plots
+
+- shape - frequently used in scatterplots; range 1-20 represents different shapes; can also use "." "\*" "+"
+
+- size - frequently used in scatterplots; default is 1.5; range generally 0.5 to 5
+
+## Scatterplot with color, shapes, size
+
+Let's try out adding a shape and size
+
+```{r}
+run17 |> 
+  slice_sample(n = 200) |> 
+  ggplot(aes(x = age, y = net_sec, color = event)) +
+  geom_point(shape = "+", size = 5)
+```
+
+## Activity: Create a filtered scatterplot
+
+Use the template below to create a scatterplot of your choice:
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+run17 |> 
+  filter(? == ?) |> 
+  ggplot(aes(x = ? , y = ?, color = ? )) + geom_point() +
+  labs(x = ?, y = ?, color = ?)
+```
+
+## Activity Example
+
+```{r}
+run17 |> 
+  filter(str_detect(name, "Jennifer") | str_detect(name, "Michael")) |> 
+  filter(event == "5K") |> 
+  ggplot(aes(x = age, y = net_sec/60, color = sex)) + geom_point(size = 4) + 
+  labs(title = "Cherry Blossom 5K Race", x = "Age", y = "Minutes", caption = "2017 Data")
+```
+
+## Next Week
+
+Our Final Week!
+
+![](images/tidyverse.png){width="350"}   ![](images/ggplot2.png){width="350"}

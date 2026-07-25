@@ -1,0 +1,287 @@
+---
+title: "Getting Started with R: Session 3"
+author: "S. Kelly | Scholar Support and Data Services | Fall 2026"
+format: 
+  revealjs: 
+    code-overflow: wrap
+    footer: "S.Kelly | Getting Started with R | Fall 2026"
+editor: visual
+execute: 
+  echo: true
+---
+
+## Load the tidyverse package to get started
+
+```{r}
+library(tidyverse)
+
+# then run search to confirm which packages are loaded
+search()
+```
+
+## Importing & Exporting Data
+
+How do we get external data into RStudio? How do we export data from RStudio? The tidyverse package for importing and exporting is readr.
+
+![](images/readr.png){fig-align="center"}
+
+## Importing Data with readr
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+# function to import a csv file
+read_csv()
+
+# only required argument is the pathway to file in quotation marks
+read_csv("~location_of_file")
+```
+
+## Importing Data with readr
+
+By default, the read_csv() function will import the first row as the column names.
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+# If your column names are on the third row
+read_csv("location_of_file", skip = 2)
+
+# You can also provide column names
+read_csv("location_of_file", 
+         col_names = c("ID", "first_name", "last_name", "status"))
+```
+
+## Importing Data
+
+You can also import data via the Environment pane (Import Dataset --\> From Text (readr))
+
+![](images/environment_pane_import.png){fig-align="center" width="600"}
+
+## Other Import \| Export Packages
+
+For importing Excel, SAS, SPSS, and Stata files use the readxl and haven packages.
+
+![](images/readxl.png){width="350"}   ![](images/haven.png){width="350"}
+
+## Importing directly from a url
+
+1.  Go to data.gov
+
+2.  Search for electric vehicles
+
+3.  Select the "Electric Vehicle Population Data" from Washington State
+
+4.  Don't download, click on link for "Comma Separated Values File"
+
+5.  Right-click to copy the url to the file
+
+## Reading in the Data Directly
+
+```{r}
+ev <- read_csv("https://data.wa.gov/api/views/f6w7-q2d2/rows.csv?accessType=DOWNLOAD")
+```
+
+![](images/EV_Data_Screenshot.png){fig-align="center"}
+
+## Quick Look
+
+```{r}
+head(ev)
+```
+
+## Rename
+
+How do we get rid of the spaces in the variable names?
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+dataset <- dataset |> 
+  rename(new_var = old_var)
+```
+
+<br>
+
+```{r}
+ev <- ev |> 
+  rename(ev_type = `Electric Vehicle Type`, 
+         postal = `Postal Code`)
+```
+
+## Exporting Data
+
+Use the write_csv() function to export a comma-separated values file to your working directory. <br>
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+write_csv(data_to_export, "filename.csv")
+```
+
+<br>
+
+Let's export the ev object from the last slide as a csv file
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+write_csv(ev, "electric_vehicles_10.5.25.csv")
+```
+
+<br> Now check your working directory. Do you see it?
+
+## Data Manipulation with dplyr
+
+ggplot2 is the most well-known package of the tidyverse suite, but dplyr might be the most useful. dplyr is how your subset and wrangle your data.
+
+![](images/dplyr.png){fig-align="center"}
+
+## Most dplyr functions are action verbs
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+glimpse() # quick preview of variables
+count() # count unique values of a variable
+arrange() # sort your data
+select() # grab particular variables
+relocate() # reorder your variables
+mutate() # create new variables
+group_by() # group your data
+summarize() # summary stats on grouped data
+filter() # grab observations that meet criteria
+slice_sample() # grab random observations
+```
+
+# Working with Variables
+
+## Last Week: cherryblossom package and run17 data
+
+```{r}
+library(cherryblossom)
+```
+
+![](images/cherryblossomflickr_adamFagen.jpg)
+
+## glimpse
+
+```{r}
+# glimpse is similar to summary from Base R
+glimpse(run17)
+```
+
+## count
+
+Count the unique values of a variable
+
+```{r}
+# count(df, variable)
+count(run17, event)
+```
+
+## tidyverse pipe \|\>
+
+```{r}
+run17 |> 
+  count(event)
+```
+
+Previous convention was the magrittr pipe: %\>%
+
+Current convention: \|\>
+
+The both work the same way.
+
+Mac Shortcut: Command + Shift + M
+
+Windows Shortcut: Control + Shift + M
+
+## select
+
+The select function is how you grab columns.
+
+```{r}
+# select(df, columns)
+select(run17, city) 
+```
+
+How would you write that code above using the pipe?
+
+## Select is very versatile
+
+```{r}
+run17 |> 
+  select(name:city, event)  |> 
+  head(3)
+```
+
+<br>
+
+```{r}
+run17 |> 
+  select(ends_with("sec")) |> 
+  head(2)
+```
+
+## You can also move your variables with select
+
+```{r}
+run17 |> 
+  select(event, pace_sec, everything()) |> 
+  head(5)
+```
+
+## Other handy features of select
+
+What am I doing here?
+
+```{r}
+run17 |> 
+  select(-c(bib, clock_sec)) 
+```
+
+## Activity: Can you select all columns except the bib column?
+
+## Activity Check
+
+```{r}
+run17 |> 
+  select(-bib)
+```
+
+## mutate
+
+Mutate creates new variables based on variables you already have in the dataframe
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+mutate(new_variable = old_variable)
+```
+
+<br> We have time to complete race in seconds. We want minutes. <br> How can we create that?
+
+## mutate and select
+
+```{r}
+run17 |> 
+  mutate(clock_min = clock_sec/60) |> 
+  select(name, clock_sec, clock_min) |> 
+  head()
+```
+
+## You can combine dplyr and ggplot2 functions
+
+```{r}
+run17 |> 
+  mutate(clock_min = clock_sec/60) |> 
+  ggplot(aes(x = sex, y = clock_min, color = event)) + 
+  geom_boxplot(fill = "white")
+```
+
+## Next Week
+
+We'll add more plotting from ggplot2 and additional functions from dplyr
+
+![](images/ggplot2.png){width="350"}   ![](images/dplyr.png){width="350"}

@@ -1,0 +1,222 @@
+---
+title: "Getting Started with R: Session 5"
+author: "S. Kelly | Scholar Support and Data Services | Fall 2026"
+format: 
+  revealjs: 
+    code-overflow: wrap
+    footer: "S.Kelly | Getting Started with R | Fall 2026"
+editor: visual
+execute: 
+  echo: true
+---
+
+## Let's get started
+
+> Open your R project. Create a new .R file. Load the two R packages we'll use today
+
+```{r}
+library(tidyverse)
+library(cherryblossom)
+
+# run search to confirm loaded packages
+search()
+```
+
+## Cherry Blossom Race
+
+Let's continue to explore the run17 dataset inside the cherryblossom package.
+
+```{r}
+head(run17)
+```
+
+## New Function: group_by
+
+`group_by()` is how you group your data by a categorical variable. Often followed with the `summarize()` function.
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+run17 |> 
+  group_by(event) |> 
+  summarize()
+```
+
+![](images/grouped_tibble.png)
+
+## New Function: summarize
+
+Be careful! The `summarize()` function is not the same as the `summary()` function from Base R. `summarize()` is similar to the `mutate()` function. Both create a new variable, but whereas `mutate()` creates a variable for every row, `summarize()` creates a variable only for the groups specified in the `group_by()` function.
+
+```{r}
+run17 |> 
+  group_by(event) |> 
+  summarize(event_means = mean(pace_sec, na.rm = T))
+```
+
+## Activity
+
+What is the minimum value for pace for males and females in the 10 Mile event?
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+run17 |> 
+  filter(? == ?) |> 
+  group_by(?) |> 
+  summarize(? = ? (?))
+```
+
+## Activity Check
+
+```{r}
+run17 |> 
+  filter(event == "10 Mile") |> 
+  group_by(sex) |> 
+  summarize(grouped_min_value = min(pace_sec))
+```
+
+## Basic Boxplot
+
+Let's create a basic boxplot with our running dataset. Then we'll add more features.
+
+```{r}
+run17 |> 
+  slice_sample(n = 400) |> 
+  ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "lightblue")
+```
+
+## What are our grouped means?
+
+Let's figure out the overall pace for each event.
+
+```{r}
+run17 |> 
+  group_by(event) |> 
+  summarize(group_mean_pace = mean(pace_sec, na.rm = T))
+```
+
+## Let's add means to the plot
+
+```{r}
+run17 |> 
+  slice_sample(n = 400) |> 
+  ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "lightblue") +
+  geom_hline(yintercept = 586, color = "maroon", size = 2) + 
+  geom_hline(yintercept = 763, color = "turquoise", size = 2) 
+```
+
+## Let's add the data points
+
+```{r}
+run17 |> 
+  slice_sample(n = 400) |> 
+  ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "lightblue") + 
+  geom_jitter()
+```
+
+## Let's add color by sex
+
+```{r}
+run17 |> 
+  slice_sample(n = 400) |> 
+  ggplot(aes(x = event, y = pace_sec)) +
+  geom_boxplot(fill = "transparent") + 
+  geom_jitter(aes(color = sex), size = 2) 
+```
+
+## Now labels and a title
+
+```{r}
+run17 |> 
+  slice_sample(n = 400) |> 
+  ggplot(aes(x = event, y = pace_sec)) +
+  geom_boxplot(fill = "transparent") + 
+  geom_jitter(aes(color = sex), size = 2) +
+  labs(x = "Event", y = "Pace (seconds)", 
+       title = "Cherry Blossom Race", color = "Sex")
+```
+
+## Finally, a quick theme
+
+```{r}
+run17 |> 
+  slice_sample(n = 400) |> 
+  ggplot(aes(x = event, y = pace_sec)) +
+  geom_boxplot(fill = "transparent") + 
+  geom_jitter(aes(color = sex), size = 2) +
+  labs(x = "Event", y = "Pace (seconds)", 
+       title = "Cherry Blossom Race", color = "Sex") + 
+  theme_classic()
+```
+
+## Let's Save our Plot
+
+```{r}
+ggsave("cherryblossomplot.jpeg")
+```
+
+## Switch to a different dataset
+
+```{r}
+# install.packages("usdata")
+library(usdata)
+```
+
+## Getting to Know the County Data
+
+```{r}
+dim(county)
+summary(county)
+```
+
+## Basic Boxplot
+
+```{r}
+county |> 
+  ggplot(aes(x = state, y = median_hh_income)) + geom_boxplot()
+```
+
+## You can flip the coordinates
+
+```{r}
+county |> 
+  ggplot(aes(x = state, y = median_hh_income)) + geom_boxplot() + 
+  coord_flip() + labs(x = NULL, y = "Household Income")
+```
+
+## Let's reorder the plot
+
+```{r}
+county  |> 
+  ggplot(aes(x = reorder(state, median_hh_income), 
+                       y = median_hh_income)) + geom_boxplot() + 
+  coord_flip() + labs(x = NULL, y = "Household Income")
+```
+
+## But I want to learn more!
+
+R for Data Science \| Hadley Wickham \| Creator of Tidyverse
+
+![](images/R4DS2.png)\
+
+## But I want to learn more!
+
+- Regression Modeling in R (4-part series); Begins Wednesday, Oct. 14, 1:00 - 2:00
+
+> Linear Regression \| Logistic Regression \| Interactions \| 
+
+![](images/QR_StatsModelingR.png){fig-align="center" width="200"}
+
+
+## But I want to learn more!
+
+![](images/MAL.png)
+
+You can make an appointment through the Methods and Analysis Lab (MAL).
+
+> Find us online: https://libraries.olemiss.edu/services/methods-and-analysis-lab/
+
+## Thank your for attending!
+
+We appreciate your feedback. Please take a minute to provide input for the "Getting Started with R" five-week series.
