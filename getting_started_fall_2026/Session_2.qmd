@@ -24,7 +24,7 @@ execute:
 
 ## Datasets included in Base R
 
-Without loading any additional packages, Base R has internal datasets that you can explore
+Without loading any additional packages, Base R has internal datasets you can use. Let's explore some of them. 
 
 ```{r}
 #| echo: TRUE
@@ -299,7 +299,7 @@ ggplot(data = run17, aes(x = pace_sec)) +
   labs(x = "Pace per second", y = "Number of Runners")
 ```
 
-## Final Activity: Create a histogram
+## Activity: Create a histogram
 
 Variable: Time to complete race (net_sec)
 
@@ -317,6 +317,24 @@ Variable: Time to complete race (net_sec)
 ```{r}
 ggplot(data = run17, aes(x = net_sec)) + geom_histogram(color = "white", 
                                         fill = "slategray4") + 
+  labs(x = "Time to Complete the Race (seconds)" , y = "Number of Runners")
+```
+
+## What about minutes? 
+
+```{r}
+ggplot(data = run17, aes(x = net_sec/60)) + geom_histogram(color = "white", 
+                                        fill = "slategray4") + 
+  labs(x = "Time to Complete the Race (minutes)" , y = "Number of Runners")
+```
+
+## Final look - Thinking through plot 
+
+Let's change the fill and add a little transparency. 
+
+```{r}
+ggplot(data = run17, aes(x = net_sec, fill = event)) + 
+  geom_histogram(color = "white", alpha = 0.6) + 
   labs(x = "Time to Complete the Race (seconds)" , y = "Number of Runners")
 ```
 
