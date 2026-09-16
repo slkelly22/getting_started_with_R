@@ -34,7 +34,7 @@ How do we get external data into RStudio? How do we export data from RStudio? Th
 read_csv()
 
 # only required argument is the pathway to file in quotation marks
-read_csv("~location_of_file")
+read_csv("location_of_file")
 ```
 
 ## Importing Data with readr
@@ -72,7 +72,7 @@ For importing Excel, SAS, SPSS, and Stata files use the readxl and haven package
 
 3.  Select the "Electric Vehicle Population Data" from Washington State
 
-4.  Download the "Comma Separated Values File" to `your R directory`.
+4.  Download the `Resource 3 | CSV file` to `your R directory`.
 
 
 ## Reading in the Data Directly
@@ -126,8 +126,8 @@ Let's export the ev object from the last slide as a csv file
 
 ```{r}
 #| echo: TRUE
-#| eval: FALSE
-write_csv(ev, "electric_vehicles_10.5.25.csv")
+#| eval: TRUE
+write_csv(ev, "electric_vehicles_9.16.26.csv")
 ```
 
 <br> Now check your working directory. Do you see it?
@@ -192,7 +192,7 @@ Previous convention was the magrittr pipe: %\>%
 
 Current convention: \|\>
 
-The both work the same way.
+They both work the same way.
 
 Mac Shortcut: Command + Shift + M
 
@@ -272,43 +272,44 @@ run17 |>
   head()
 ```
 
-## Combining dplyr and ggplot2 functions
+## Combining functions
 
 ```{r}
 #| echo: TRUE
 run17 |> 
   mutate(clock_min = clock_sec/60) |> 
   ggplot(aes(x = sex, y = clock_min, color = event)) + 
-  geom_boxplot(fill = "white") + theme_minimal()
+  geom_boxplot() + theme_minimal()
 ```
 
 
-## Adding Titles
+## Adding Labs
 
 ```{r}
 #| echo: TRUE
 run17 |> 
   mutate(clock_min = clock_sec/60) |> 
   ggplot(aes(x = sex, y = clock_min, color = event)) + 
-  geom_boxplot(fill = "white") + theme_minimal() + 
+  geom_boxplot() + theme_minimal() + 
   labs(title = "Cherry Blossom Race, 2017", x = "Sex", 
        y = "Clock Time (minutes)")
 ```
 
 ## Saving Plots
 
-We'll send the plot to an object and then save the object with `ggsave()`.
+We'll send the plot to an object and then refer to the object in `ggsave()`. You don't need to specify width or height but I will below. 
 
 ```{r}
 #| echo: TRUE
 cherry_boxplot <- run17 |> 
   mutate(clock_min = clock_sec/60) |> 
   ggplot(aes(x = sex, y = clock_min, color = event)) + 
-  geom_boxplot(fill = "white") + theme_minimal() + 
+  geom_boxplot() + theme_minimal() + 
   labs(title = "Cherry Blossom Race, 2017", x = "Sex", 
        y = "Clock Time (minutes)")
 
-ggsave("cherry_boxplot.png", plot = cherry_boxplot, width = 8, height = 6)
+ggsave("cherry_boxplot.png", plot = cherry_boxplot, 
+       width = 8, height = 6)
 ```
 
 ## Next Week

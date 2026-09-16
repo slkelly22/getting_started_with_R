@@ -432,7 +432,7 @@ S. Kelly | Scholar Support and Data Services | Fall 2026
 <span id="cb3-2"><a href=""></a><span class="fu">read_csv</span>()</span>
 <span id="cb3-3"><a href=""></a></span>
 <span id="cb3-4"><a href=""></a><span class="co"># only required argument is the pathway to file in quotation marks</span></span>
-<span id="cb3-5"><a href=""></a><span class="fu">read_csv</span>(<span class="st">"~location_of_file"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href=""></a><span class="fu">read_csv</span>(<span class="st">"location_of_file"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="importing-data-with-readr-1" class="slide level2">
@@ -463,7 +463,7 @@ S. Kelly | Scholar Support and Data Services | Fall 2026
 <li><p>Go to data.gov</p></li>
 <li><p>Search for electric vehicles</p></li>
 <li><p>Select the “Electric Vehicle Population Data” from Washington State</p></li>
-<li><p>Download the “Comma Separated Values File” to <code>your R directory</code>.</p></li>
+<li><p>Download the <code>Resource 3 | CSV file</code> to <code>your R directory</code>.</p></li>
 </ol>
 </section>
 <section id="reading-in-the-data-directly" class="slide level2">
@@ -519,7 +519,7 @@ S. Kelly | Scholar Support and Data Services | Fall 2026
 <p><br></p>
 <p>Let’s export the ev object from the last slide as a csv file</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">write_csv</span>(ev, <span class="st">"electric_vehicles_10.5.25.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">write_csv</span>(ev, <span class="st">"electric_vehicles_9.16.26.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br> Now check your working directory. Do you see it?</p>
 </section>
@@ -605,7 +605,7 @@ $ event     &lt;chr&gt; "10 Mile", "10 Mile", "10 Mile", "10 Mile", "10 Mile", "
 </div>
 <p>Previous convention was the magrittr pipe: %&gt;%</p>
 <p>Current convention: |&gt;</p>
-<p>The both work the same way.</p>
+<p>They both work the same way.</p>
 <p>Mac Shortcut: Command + Shift + M</p>
 <p>Windows Shortcut: Control + Shift + M</p>
 </section>
@@ -759,23 +759,23 @@ $ event     &lt;chr&gt; "10 Mile", "10 Mile", "10 Mile", "10 Mile", "10 Mile", "
 </div>
 </div>
 </section>
-<section id="combining-dplyr-and-ggplot2-functions" class="slide level2">
-<h2>Combining dplyr and ggplot2 functions</h2>
+<section id="combining-functions" class="slide level2">
+<h2>Combining functions</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
 <span id="cb35-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">clock_min =</span> clock_sec<span class="sc">/</span><span class="dv">60</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb35-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sex, <span class="at">y =</span> clock_min, <span class="at">color =</span> event)) <span class="sc">+</span> </span>
-<span id="cb35-4"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-4"><a href=""></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="Session_3_files/figure-revealjs/unnamed-chunk-23-1.png" width="960" class="r-stretch"></section>
-<section id="adding-titles" class="slide level2">
-<h2>Adding Titles</h2>
+<section id="adding-labs" class="slide level2">
+<h2>Adding Labs</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
 <span id="cb36-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">clock_min =</span> clock_sec<span class="sc">/</span><span class="dv">60</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb36-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sex, <span class="at">y =</span> clock_min, <span class="at">color =</span> event)) <span class="sc">+</span> </span>
-<span id="cb36-4"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
+<span id="cb36-4"><a href=""></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
 <span id="cb36-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Cherry Blossom Race, 2017"</span>, <span class="at">x =</span> <span class="st">"Sex"</span>, </span>
 <span id="cb36-6"><a href=""></a>       <span class="at">y =</span> <span class="st">"Clock Time (minutes)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
@@ -783,16 +783,17 @@ $ event     &lt;chr&gt; "10 Mile", "10 Mile", "10 Mile", "10 Mile", "10 Mile", "
 <img data-src="Session_3_files/figure-revealjs/unnamed-chunk-24-1.png" width="960" class="r-stretch"></section>
 <section id="saving-plots" class="slide level2">
 <h2>Saving Plots</h2>
-<p>We’ll send the plot to an object and then save the object with <code>ggsave()</code>.</p>
+<p>We’ll send the plot to an object and then refer to the object in <code>ggsave()</code>. You don’t need to specify width or height but I will below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a>cherry_boxplot <span class="ot">&lt;-</span> run17 <span class="sc">|&gt;</span> </span>
 <span id="cb37-2"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">clock_min =</span> clock_sec<span class="sc">/</span><span class="dv">60</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb37-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sex, <span class="at">y =</span> clock_min, <span class="at">color =</span> event)) <span class="sc">+</span> </span>
-<span id="cb37-4"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
+<span id="cb37-4"><a href=""></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
 <span id="cb37-5"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Cherry Blossom Race, 2017"</span>, <span class="at">x =</span> <span class="st">"Sex"</span>, </span>
 <span id="cb37-6"><a href=""></a>       <span class="at">y =</span> <span class="st">"Clock Time (minutes)"</span>)</span>
 <span id="cb37-7"><a href=""></a></span>
-<span id="cb37-8"><a href=""></a><span class="fu">ggsave</span>(<span class="st">"cherry_boxplot.png"</span>, <span class="at">plot =</span> cherry_boxplot, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-8"><a href=""></a><span class="fu">ggsave</span>(<span class="st">"cherry_boxplot.png"</span>, <span class="at">plot =</span> cherry_boxplot, </span>
+<span id="cb37-9"><a href=""></a>       <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="next-week" class="slide level2">
