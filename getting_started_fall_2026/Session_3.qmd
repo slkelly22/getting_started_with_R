@@ -74,10 +74,9 @@ For importing Excel, SAS, SPSS, and Stata files use the readxl and haven package
 
 4.  Download the `Resource 3 | CSV file` to `your R directory`.
 
-
 ## Reading in the Data Directly
 
-Import the file and save it as an object called `ev`. 
+Import the file and save it as an object called `ev`.
 
 ```{r}
 ev <- read_csv("export.csv")
@@ -282,7 +281,6 @@ run17 |>
   geom_boxplot() + theme_minimal()
 ```
 
-
 ## Adding Labs
 
 ```{r}
@@ -297,7 +295,7 @@ run17 |>
 
 ## Saving Plots
 
-We'll send the plot to an object and then refer to the object in `ggsave()`. You don't need to specify width or height but I will below. 
+We'll send the plot to an object and then refer to the object in `ggsave()`. You don't need to specify width or height but I will below.
 
 ```{r}
 #| echo: TRUE
