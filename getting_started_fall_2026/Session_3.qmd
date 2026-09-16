@@ -64,7 +64,7 @@ For importing Excel, SAS, SPSS, and Stata files use the readxl and haven package
 
 ![](images/readxl.png){width="350"}   ![](images/haven.png){width="350"}
 
-## Importing directly from a url
+## Let's import a csv file
 
 1.  Go to data.gov
 
@@ -72,14 +72,15 @@ For importing Excel, SAS, SPSS, and Stata files use the readxl and haven package
 
 3.  Select the "Electric Vehicle Population Data" from Washington State
 
-4.  Don't download, click on link for "Comma Separated Values File"
+4.  Download the "Comma Separated Values File" to `your R directory`.
 
-5.  Right-click to copy the url to the file
 
 ## Reading in the Data Directly
 
+Import the file and save it as an object called `ev`. 
+
 ```{r}
-ev <- read_csv("https://data.wa.gov/api/views/f6w7-q2d2/rows.csv?accessType=DOWNLOAD")
+ev <- read_csv("export.csv")
 ```
 
 ![](images/EV_Data_Screenshot.png){fig-align="center"}
@@ -271,13 +272,43 @@ run17 |>
   head()
 ```
 
-## You can combine dplyr and ggplot2 functions
+## Combining dplyr and ggplot2 functions
 
 ```{r}
+#| echo: TRUE
 run17 |> 
   mutate(clock_min = clock_sec/60) |> 
   ggplot(aes(x = sex, y = clock_min, color = event)) + 
-  geom_boxplot(fill = "white")
+  geom_boxplot(fill = "white") + theme_minimal()
+```
+
+
+## Adding Titles
+
+```{r}
+#| echo: TRUE
+run17 |> 
+  mutate(clock_min = clock_sec/60) |> 
+  ggplot(aes(x = sex, y = clock_min, color = event)) + 
+  geom_boxplot(fill = "white") + theme_minimal() + 
+  labs(title = "Cherry Blossom Race, 2017", x = "Sex", 
+       y = "Clock Time (minutes)")
+```
+
+## Saving Plots
+
+We'll send the plot to an object and then save the object with `ggsave()`.
+
+```{r}
+#| echo: TRUE
+cherry_boxplot <- run17 |> 
+  mutate(clock_min = clock_sec/60) |> 
+  ggplot(aes(x = sex, y = clock_min, color = event)) + 
+  geom_boxplot(fill = "white") + theme_minimal() + 
+  labs(title = "Cherry Blossom Race, 2017", x = "Sex", 
+       y = "Clock Time (minutes)")
+
+ggsave("cherry_boxplot.png", plot = cherry_boxplot, width = 8, height = 6)
 ```
 
 ## Next Week
