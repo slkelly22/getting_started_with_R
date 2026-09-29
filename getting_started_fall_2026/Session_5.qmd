@@ -49,7 +49,9 @@ run17 |>
 Be careful! The `summarize()` function is not the same as the `summary()` function from Base R. `summarize()` is similar to the `mutate()` function. Both create a new variable, but whereas `mutate()` creates a variable for every row, `summarize()` creates a variable only for the groups specified in the `group_by()` function.
 
 ```{r}
+set.seed(7834)
 run17 |> 
+  slice_sample(n = 400) |>
   group_by(event) |> 
   summarize(event_means = mean(pace_sec, na.rm = T))
 ```
@@ -91,7 +93,9 @@ run17 |>
 Let's figure out the overall pace for each event.
 
 ```{r}
+set.seed(7834)
 run17 |> 
+  slice_sample(n = 400) |>
   group_by(event) |> 
   summarize(group_mean_pace = mean(pace_sec, na.rm = T))
 ```
@@ -99,11 +103,23 @@ run17 |>
 ## Let's add means to the plot
 
 ```{r}
+set.seed(7834)
 run17 |> 
   slice_sample(n = 400) |> 
   ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "lightblue") +
-  geom_hline(yintercept = 586, color = "maroon", size = 2) + 
-  geom_hline(yintercept = 763, color = "turquoise", size = 2) 
+  geom_hline(yintercept = 587, color = "maroon", size = 2) + 
+  geom_hline(yintercept = 778, color = "turquoise", size = 2) 
+```
+
+## Let's add means to the plot
+```{r}
+set.seed(7834)
+run17 |> 
+  slice_sample(n = 400) |> 
+  ggplot(aes(x = event, y = pace_sec)) + 
+  geom_boxplot(fill = "cadetblue") +
+  stat_summary(fun = mean, geom = "point", shape = 23, size = 7, fill = "maroon")
+
 ```
 
 ## Let's add the data points
@@ -204,10 +220,9 @@ R for Data Science \| Hadley Wickham \| Creator of Tidyverse
 
 - Regression Modeling in R (4-part series); Begins Wednesday, Oct. 14, 1:00 - 2:00
 
-> Linear Regression \| Logistic Regression \| Interactions \| 
+> Linear Regression \| Logistic Regression \| Interactions \|
 
 ![](images/QR_StatsModelingR.png){fig-align="center" width="200"}
-
 
 ## But I want to learn more!
 
