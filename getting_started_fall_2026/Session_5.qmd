@@ -222,7 +222,7 @@ R for Data Science \| Hadley Wickham \| Creator of Tidyverse
 
 > Linear Regression \| Logistic Regression \| Interactions \|
 
-![](images/QR_StatsModelingR.png){fig-align="center" width="200"}
+![](images/QR_RegModelingWorkshop.png){fig-align="center" width="200"}
 
 ## But I want to learn more!
 
@@ -234,4 +234,6 @@ You can make an appointment through the Methods and Analysis Lab (MAL).
 
 ## Thank your for attending!
 
-We appreciate your feedback. Please take a minute to provide input for the "Getting Started with R" five-week series.
+We appreciate your feedback. Please take a minute to provide input on the "Getting Started with R" (SK5) five-week series.
+
+![](images/QR_finaleval.png){fig-align="center" width="200"}
