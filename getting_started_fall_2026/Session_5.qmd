@@ -51,7 +51,7 @@ Be careful! The `summarize()` function is not the same as the `summary()` functi
 ```{r}
 run17 |> 
   group_by(event) |> 
-  summarize(event_means = mean(pace_sec, na.rm = T))
+  summarize(event_mean_pace = mean(pace_sec, na.rm = T))
 ```
 
 ## Activity
@@ -89,14 +89,12 @@ run17 |>
 
 ## What are our grouped means?
 
-Let's figure out the overall pace for each event.
+Let's recall the overall pace for each event.
 
 ```{r}
-set.seed(7834)
 run17 |> 
-  slice_sample(n = 400) |>
   group_by(event) |> 
-  summarize(group_mean_pace = mean(pace_sec, na.rm = T))
+  summarize(event_mean_pace = mean(pace_sec, na.rm = T))
 ```
 
 ## Let's add means to the plot
@@ -106,8 +104,8 @@ set.seed(7834)
 run17 |> 
   slice_sample(n = 400) |> 
   ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "cadetblue") +
-  geom_hline(yintercept = 587, color = "maroon", size = 2) + 
-  geom_hline(yintercept = 778, color = "orange", size = 2) 
+  geom_hline(yintercept = 586, color = "maroon", size = 2) + 
+  geom_hline(yintercept = 763, color = "orange", size = 2) 
 ```
 
 ## Let's add means to the plot
@@ -123,15 +121,18 @@ run17 |>
 ## Let's add the data points
 
 ```{r}
+set.seed(7834)
 run17 |> 
   slice_sample(n = 400) |> 
   ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "cadetblue") + 
-  geom_jitter()
+  geom_jitter() + 
+  geom_point(stat = "summary", shape = 23, size = 7, fill = "maroon")
 ```
 
 ## Let's add color by sex
 
 ```{r}
+set.seed(7834)
 run17 |> 
   slice_sample(n = 400) |> 
   ggplot(aes(x = event, y = pace_sec)) +
@@ -142,6 +143,7 @@ run17 |>
 ## Now labels and a title
 
 ```{r}
+set.seed(7834)
 run17 |> 
   slice_sample(n = 400) |> 
   ggplot(aes(x = event, y = pace_sec)) +
@@ -154,6 +156,7 @@ run17 |>
 ## Finally, a quick theme
 
 ```{r}
+set.seed(7834)
 run17 |> 
   slice_sample(n = 400) |> 
   ggplot(aes(x = event, y = pace_sec)) +
@@ -188,25 +191,63 @@ summary(county)
 
 ```{r}
 county |> 
-  ggplot(aes(x = state, y = median_hh_income)) + geom_boxplot()
+  ggplot(aes(x = state, y = per_capita_income)) + geom_boxplot()
 ```
 
 ## You can flip the coordinates
 
 ```{r}
 county |> 
-  ggplot(aes(x = state, y = median_hh_income)) + geom_boxplot() + 
-  coord_flip() + labs(x = NULL, y = "Household Income")
+  ggplot(aes(x = state, y = per_capita_income)) + 
+  geom_boxplot(fill = "lightblue") + 
+  coord_flip() 
 ```
 
 ## Let's reorder the plot
 
 ```{r}
-county  |> 
-  ggplot(aes(x = reorder(state, median_hh_income), 
-                       y = median_hh_income)) + geom_boxplot() + 
-  coord_flip() + labs(x = NULL, y = "Household Income")
+county |> 
+  ggplot(aes(x = reorder(state, per_capita_income), 
+             y = per_capita_income)) + 
+  geom_boxplot(fill = "lightblue") + 
+  coord_flip()
 ```
+
+## But where is Colorado? 
+
+```{r}
+#| echo: FALSE
+#| eval: TRUE
+county |> 
+  mutate(highlight = if_else(state == "Colorado", "Colorado", "Other")) |>
+  ggplot(aes(x = reorder(state, per_capita_income), 
+             y = per_capita_income, fill = highlight)) + 
+  geom_boxplot() + 
+  coord_flip() +
+  scale_fill_manual(values = c("Colorado" = "maroon", 
+                               "Other" = "lightblue")) + 
+  labs(x = NULL, y = "Per capita (per person) income") +
+    theme_classic() + theme(legend.position = "none")
+```
+
+## But where is Colorado? 
+
+```{r}
+#| echo: TRUE
+#| eval: FALSE
+county |> 
+  mutate(highlight = if_else(state == "Colorado", "Colorado", "Other")) |>
+  ggplot(aes(x = reorder(state, per_capita_income), 
+             y = per_capita_income, fill = highlight)) + 
+  geom_boxplot() + 
+  coord_flip() +
+  scale_fill_manual(values = c("Colorado" = "maroon", 
+                               "Other" = "lightblue")) + 
+  labs(x = NULL, y = "Per capita (per person) income") +
+    theme_classic() + theme(legend.position = "none")
+```
+
+
 
 ## But I want to learn more!
 
