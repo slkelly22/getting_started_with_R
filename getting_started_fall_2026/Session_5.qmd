@@ -46,12 +46,10 @@ run17 |>
 
 ## New Function: summarize
 
-Be careful! The `summarize()` function is not the same as the `summary()` function from Base R. `summarize()` is similar to the `mutate()` function. Both create a new variable, but whereas `mutate()` creates a variable for every row, `summarize()` creates a variable only for the groups specified in the `group_by()` function.
+Be careful! The `summarize()` function is not the same as the `summary()` function from Base R. `summarize()` is similar to the `mutate()` function. Both create a new variable, but whereas `mutate()` creates a variable for every row, `summarize()` creates a variable only for the groups specified in the `group_by()` function. 
 
 ```{r}
-set.seed(7834)
 run17 |> 
-  slice_sample(n = 400) |>
   group_by(event) |> 
   summarize(event_means = mean(pace_sec, na.rm = T))
 ```
@@ -80,12 +78,13 @@ run17 |>
 
 ## Basic Boxplot
 
-Let's create a basic boxplot with our running dataset. Then we'll add more features.
+Let's create a basic boxplot with our running dataset. Then we'll add more features. We want the same random observations so we'll `set a seed`. 
 
 ```{r}
+set.seed(7834)
 run17 |> 
   slice_sample(n = 400) |> 
-  ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "lightblue")
+  ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "cadetblue")
 ```
 
 ## What are our grouped means?
@@ -106,9 +105,9 @@ run17 |>
 set.seed(7834)
 run17 |> 
   slice_sample(n = 400) |> 
-  ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "lightblue") +
+  ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "cadetblue") +
   geom_hline(yintercept = 587, color = "maroon", size = 2) + 
-  geom_hline(yintercept = 778, color = "turquoise", size = 2) 
+  geom_hline(yintercept = 778, color = "orange", size = 2) 
 ```
 
 ## Let's add means to the plot
@@ -118,8 +117,7 @@ run17 |>
   slice_sample(n = 400) |> 
   ggplot(aes(x = event, y = pace_sec)) + 
   geom_boxplot(fill = "cadetblue") +
-  stat_summary(fun = mean, geom = "point", shape = 23, size = 7, fill = "maroon")
-
+  geom_point(stat = "summary", shape = 23, size = 7, fill = "maroon")
 ```
 
 ## Let's add the data points
@@ -127,7 +125,7 @@ run17 |>
 ```{r}
 run17 |> 
   slice_sample(n = 400) |> 
-  ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "lightblue") + 
+  ggplot(aes(x = event, y = pace_sec)) + geom_boxplot(fill = "cadetblue") + 
   geom_jitter()
 ```
 

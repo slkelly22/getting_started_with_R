@@ -456,17 +456,15 @@ S. Kelly | Scholar Support and Data Services | Fall 2026
 <h2>New Function: summarize</h2>
 <p>Be careful! The <code>summarize()</code> function is not the same as the <code>summary()</code> function from Base R. <code>summarize()</code> is similar to the <code>mutate()</code> function. Both create a new variable, but whereas <code>mutate()</code> creates a variable for every row, <code>summarize()</code> creates a variable only for the groups specified in the <code>group_by()</code> function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">7834</span>)</span>
-<span id="cb6-2"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb6-3"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-4"><a href=""></a>  <span class="fu">group_by</span>(event) <span class="sc">|&gt;</span> </span>
-<span id="cb6-5"><a href=""></a>  <span class="fu">summarize</span>(<span class="at">event_means =</span> <span class="fu">mean</span>(pace_sec, <span class="at">na.rm =</span> T))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href=""></a>  <span class="fu">group_by</span>(event) <span class="sc">|&gt;</span> </span>
+<span id="cb6-3"><a href=""></a>  <span class="fu">summarize</span>(<span class="at">event_means =</span> <span class="fu">mean</span>(pace_sec, <span class="at">na.rm =</span> T))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 2
   event   event_means
   &lt;chr&gt;         &lt;dbl&gt;
-1 10 Mile        587.
-2 5K             778.</code></pre>
+1 10 Mile        586.
+2 5K             763.</code></pre>
 </div>
 </div>
 </section>
@@ -498,11 +496,12 @@ S. Kelly | Scholar Support and Data Services | Fall 2026
 </section>
 <section id="basic-boxplot" class="slide level2">
 <h2>Basic Boxplot</h2>
-<p>Let’s create a basic boxplot with our running dataset. Then we’ll add more features.</p>
+<p>Let’s create a basic boxplot with our running dataset. Then we’ll add more features. We want the same random observations so we’ll <code>set a seed</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
-<span id="cb11-2"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb11-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">7834</span>)</span>
+<span id="cb11-2"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
+<span id="cb11-3"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"cadetblue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="Session_5_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
@@ -530,9 +529,9 @@ S. Kelly | Scholar Support and Data Services | Fall 2026
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">7834</span>)</span>
 <span id="cb14-2"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
 <span id="cb14-3"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb14-4"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span></span>
+<span id="cb14-4"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"cadetblue"</span>) <span class="sc">+</span></span>
 <span id="cb14-5"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">587</span>, <span class="at">color =</span> <span class="st">"maroon"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
-<span id="cb14-6"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">778</span>, <span class="at">color =</span> <span class="st">"turquoise"</span>, <span class="at">size =</span> <span class="dv">2</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-6"><a href=""></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">778</span>, <span class="at">color =</span> <span class="st">"orange"</span>, <span class="at">size =</span> <span class="dv">2</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="Session_5_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch"></section>
@@ -544,7 +543,7 @@ S. Kelly | Scholar Support and Data Services | Fall 2026
 <span id="cb15-3"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb15-4"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span> </span>
 <span id="cb15-5"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"cadetblue"</span>) <span class="sc">+</span></span>
-<span id="cb15-6"><a href=""></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">shape =</span> <span class="dv">23</span>, <span class="at">size =</span> <span class="dv">7</span>, <span class="at">fill =</span> <span class="st">"maroon"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-6"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">stat =</span> <span class="st">"summary"</span>, <span class="at">shape =</span> <span class="dv">23</span>, <span class="at">size =</span> <span class="dv">7</span>, <span class="at">fill =</span> <span class="st">"maroon"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="Session_5_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch"></section>
@@ -553,7 +552,7 @@ S. Kelly | Scholar Support and Data Services | Fall 2026
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>run17 <span class="sc">|&gt;</span> </span>
 <span id="cb16-2"><a href=""></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb16-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span> </span>
+<span id="cb16-3"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> event, <span class="at">y =</span> pace_sec)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"cadetblue"</span>) <span class="sc">+</span> </span>
 <span id="cb16-4"><a href=""></a>  <span class="fu">geom_jitter</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
